@@ -32,14 +32,17 @@ class _main_pageState extends State<main_page> {
       backgroundColor: common_colors.cyan,
     )
   ];
-  var page_widgets=[
-    menu_page_widget.menu_page_grid_view(),
-  ];
+
 
 
 
   @override
   Widget build(BuildContext context) {
+    var page_widgets=[
+      menu_page_widget.menu_page_grid_view(context),
+    ];
+
+
 
     return Scaffold(
       body: Center(

@@ -12,16 +12,12 @@ class menu_page_widget
   ];
 
 
-  static Widget menu_page_grid_view_item(int index)
+  static Widget menu_page_grid_view_item(int index,BuildContext context)
   {
     return GestureDetector(
         child:Container(
             decoration: BoxDecoration(
-              color: common_colors.green,
-              border: Border.all(
-                  width: 4,
-                  color: common_colors.red
-              ),
+              color: common_colors.generate_rnd_color() as Color,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
@@ -30,12 +26,57 @@ class menu_page_widget
                 style: TextStyle(color: common_colors.black,fontSize: 20),
               ),
             )
-        )
+        ),
+        onTap:(){
+          menu_page_bottom_sheet(context,index);
+          } ,
       //implement on tap here
     );
   }
 
-  static Widget menu_page_grid_view()
+
+
+  static void menu_page_bottom_sheet(BuildContext context,int index)
+  {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context){
+        return Container(
+            child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                     test_menu.elementAt(index).image,
+                     Container(
+                       padding: EdgeInsets.all(20),
+                       child: TextFormField(
+                         decoration: InputDecoration(
+                           icon: Icon(Icons.drive_file_rename_outline)
+                         ),
+                         initialValue: test_menu.elementAt(index).name,
+                       ),
+                     ),
+                     Container(
+                      padding: EdgeInsets.all(20),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.monetization_on)
+                        ),
+                        initialValue: test_menu.elementAt(index).price.toString() + " tomans",
+                      ),
+                    )
+
+                  ],
+              ),
+            )
+        );
+      }
+    );
+  }
+
+
+
+  static Widget menu_page_grid_view(BuildContext context)
   {
     return GridView.builder(
       itemCount:test_menu.length ,
@@ -46,11 +87,10 @@ class menu_page_widget
       ),
       itemBuilder:(BuildContext context,int index)
       {
-        return menu_page_grid_view_item(index);
+        return menu_page_grid_view_item(index,context);
       },
     );
   }
-
 
 
 }
