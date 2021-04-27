@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant/button_modal.dart';
 import 'package:restaurant/colors.dart';
+import 'package:restaurant/main_page.dart';
 import 'package:restaurant/offline_test_food.dart';
 class menu_page_widget
 {
-
   static var test_menu =[
     new offline_test_food('pizza',10,Image.asset('assets/pictures/0817-murray-mancini-dried-tomato-pie.jpg'),true),
     new offline_test_food('fish',12,Image.asset('assets/pictures/20190503-delish-pineapple-baked-salmon-horizontal-ehg-450-1557771120.jpg'),true),
@@ -64,8 +65,12 @@ class menu_page_widget
                         ),
                         initialValue: test_menu.elementAt(index).price.toString() + " tomans",
                       ),
-                    )
-
+                    ),
+                    // how should we change main_page state here ?
+                    button_modal.button_model("delete food", common_colors.red as Color, (){
+                      test_menu.remove(index);
+                      print(test_menu);
+                    })
                   ],
               ),
             )
@@ -73,7 +78,6 @@ class menu_page_widget
       }
     );
   }
-
 
 
   static Widget menu_page_grid_view(BuildContext context)
