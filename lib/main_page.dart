@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant/menu_page_widget.dart';
+import 'package:restaurant/EditMenu.dart';
 import 'package:models/models.dart';
 
 class main_page extends StatefulWidget {
@@ -8,7 +8,6 @@ class main_page extends StatefulWidget {
 }
 
 class _main_pageState extends State<main_page> {
-
   int bottom_nav_current_index=0;
   //bottom nav items
   var bottom_nav_main_items =  [
@@ -40,7 +39,7 @@ class _main_pageState extends State<main_page> {
   @override
   Widget build(BuildContext context) {
     var page_widgets=[
-      menu_page_widget.menu_page_grid_view(context),
+      EditMenu(),
     ];
 
 
