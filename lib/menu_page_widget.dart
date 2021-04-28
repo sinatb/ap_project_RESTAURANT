@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant/button_modal.dart';
-import 'package:restaurant/colors.dart';
+import 'package:models/models.dart';
 import 'package:restaurant/main_page.dart';
-import 'package:restaurant/offline_test_food.dart';
+import 'package:models/models.dart';
+
 class menu_page_widget
 {
-  static var test_menu =[
-    new offline_test_food('pizza',10,Image.asset('assets/pictures/0817-murray-mancini-dried-tomato-pie.jpg'),true),
-    new offline_test_food('fish',12,Image.asset('assets/pictures/20190503-delish-pineapple-baked-salmon-horizontal-ehg-450-1557771120.jpg'),true),
-    new offline_test_food('pan cake', 5, Image.asset('assets/pictures/PSD_Food_illustrations_3190_pancakes_with_butter-1wi1tz5.jpg'),true),
-    new offline_test_food('lasagna', 30, Image.asset('assets/pictures/140430115517-06-comfort-foods.jpg'), true)
-  ];
-
 
   static Widget menu_page_grid_view_item(int index,BuildContext context)
   {
     return GestureDetector(
         child:Container(
             decoration: BoxDecoration(
-              color: common_colors.generate_rnd_color() as Color,
+              color: CommonColors.generateColor() as Color,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
               child:Text(
                 test_menu.elementAt(index).name,
-                style: TextStyle(color: common_colors.black,fontSize: 20),
+                style: TextStyle(color: CommonColors.black,fontSize: 20),
               ),
             )
         ),
@@ -67,7 +60,7 @@ class menu_page_widget
                       ),
                     ),
                     // how should we change main_page state here ?
-                    button_modal.button_model("delete food", common_colors.red as Color, (){
+                    buildModelButton("delete food", CommonColors.red as Color, (){
                       test_menu.remove(index);
                       print(test_menu);
                     })

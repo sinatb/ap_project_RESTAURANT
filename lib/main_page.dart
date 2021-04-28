@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant/colors.dart';
 import 'package:restaurant/menu_page_widget.dart';
+import 'package:models/models.dart';
+
 class main_page extends StatefulWidget {
   @override
   _main_pageState createState() => _main_pageState();
@@ -14,22 +15,22 @@ class _main_pageState extends State<main_page> {
     BottomNavigationBarItem(
       icon: Icon(Icons.menu_book_outlined),
       label: "Edit menu",
-      backgroundColor: common_colors.blue,
+      backgroundColor: CommonColors.blue,
     ),
     BottomNavigationBarItem(
         icon: Icon(Icons.message),
         label: "messages",
-        backgroundColor: common_colors.green
+        backgroundColor: CommonColors.green
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.fastfood_outlined),
       label: "orders",
-      backgroundColor: common_colors.red,
+      backgroundColor: CommonColors.red,
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.settings),
       label: "settings",
-      backgroundColor: common_colors.cyan,
+      backgroundColor: CommonColors.cyan,
     )
   ];
 
@@ -45,20 +46,18 @@ class _main_pageState extends State<main_page> {
 
 
     return Scaffold(
-      body: Center(
-        child: page_widgets.elementAt(bottom_nav_current_index),
-      ),
-      bottomNavigationBar: bottom_nav_creater(),
+      body: page_widgets[bottom_nav_current_index],
+      bottomNavigationBar: buildBottomNavigation(),
     );
   }
 
   //main bottom nav widget
-  Widget bottom_nav_creater()
+  Widget buildBottomNavigation()
   {
     return BottomNavigationBar(
       items: bottom_nav_main_items,
       currentIndex:bottom_nav_current_index,
-      selectedItemColor: common_colors.black,
+      selectedItemColor: CommonColors.black,
       onTap: change_nav_current_index,
     );
   }
