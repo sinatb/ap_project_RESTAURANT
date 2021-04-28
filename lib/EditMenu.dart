@@ -37,7 +37,7 @@ class _EditMenuState extends State<EditMenu> {
              child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                testMenu.elementAt(index).image,
+                //testMenu.elementAt(index).image,
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
@@ -57,8 +57,11 @@ class _EditMenuState extends State<EditMenu> {
                 ),
                   // how should we change main_page state here ?
                 buildModelButton("delete food", CommonColors.red as Color, () {
-                  testMenu.remove(index);
+                  testMenu.removeAt(index);
                   print(testMenu);
+                }),
+                buildModelButton("edit food", CommonColors.green as Color, (){
+                  print("edited");
                 })
               ],
             ),
