@@ -7,8 +7,25 @@ class EditMenu extends StatefulWidget {
 }
 
 class _EditMenuState extends State<EditMenu> {
-  Widget menu_page_grid_view_item(
-      int index, BuildContext context, var testMenu) {
+
+  @override
+  Widget build(BuildContext context) {
+  var testMenu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!.getFoods(FoodCategory.Iranian);
+  return GridView.builder(
+      itemCount:testMenu!.length ,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          crossAxisCount: 2
+      ),
+      itemBuilder:(BuildContext context,int index)
+      {
+        return buildGridItem(index,context,testMenu);
+      },
+    );
+  }
+
+  Widget buildGridItem(int index, BuildContext context, var testMenu) {
     return GestureDetector(
       child: Container(
           decoration: BoxDecoration(
@@ -22,13 +39,12 @@ class _EditMenuState extends State<EditMenu> {
             ),
           )),
       onTap: () {
-        menu_page_bottom_sheet(context, index, testMenu);
+        buildEditBottomSheet(context, index, testMenu);
       },
-//implement on tap here
     );
   }
 
-  void menu_page_bottom_sheet(BuildContext context, int index, var testMenu) {
+  void buildEditBottomSheet(BuildContext context, int index, var testMenu) {
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
@@ -67,23 +83,6 @@ class _EditMenuState extends State<EditMenu> {
             ),
           ));
         });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-  var testMenu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!.getFoods(FoodCategory.Iranian);
-  return GridView.builder(
-      itemCount:testMenu!.length ,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          crossAxisCount: 2
-      ),
-      itemBuilder:(BuildContext context,int index)
-      {
-        return menu_page_grid_view_item(index,context,testMenu);
-      },
-    );
   }
 }
 

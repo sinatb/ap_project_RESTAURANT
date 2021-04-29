@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant/EditMenu.dart';
+import 'edit_menu.dart';
 import 'package:models/models.dart';
 
 class MainPanel extends StatefulWidget {
