@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'edit_menu.dart';
+import 'edit_menu2.dart';
 import 'package:models/models.dart';
 
 class MainPanel extends StatefulWidget {
@@ -35,7 +35,7 @@ class _MainPanelState extends State<MainPanel> {
         ),
       ],
       currentIndex:_currentIndex,
-      selectedItemColor: CommonColors.black,
+      selectedItemColor: Theme.of(context).primaryColor,
       onTap: (index) {
         setState(() {
           _currentIndex = index;
@@ -46,7 +46,7 @@ class _MainPanelState extends State<MainPanel> {
 
   var _pages = <Widget>[
     Center(child: Text('To Be Implemented'),),
-    EditMenu(),
+    EditMenuPanel(),
     Center(child: Text('To Be Implemented'),),
   ];
 
