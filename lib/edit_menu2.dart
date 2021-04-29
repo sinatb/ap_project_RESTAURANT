@@ -25,7 +25,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
             IconButton(icon: Icon(Icons.search), onPressed: (){}),
           ],
         ),
-        buildHeader(Strings.get('edit-menu-categories-header')!, Colors.white, goodColor, 18),
+        buildHeader(Strings.get('edit-menu-categories-header')!, goodColor, 24),
         SliverPadding(
           padding: EdgeInsets.all(10),
           sliver: SliverGrid.count(
@@ -35,7 +35,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
             childAspectRatio: 1,
             children: [
               for (var category in menu!.categories)
-                buildCategoryGridItem(context, category)
+                buildCategoryGridItem(category)
             ],
           ),
         ),
@@ -45,56 +45,54 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
     );
   }
 
-  Widget buildCategoryGridItem(BuildContext context, FoodCategory category) {
-    return GestureDetector(
-      child: Container(
-        child: Stack(
-          children: [
-            Positioned(
-              left: 6,
-              bottom: 0,
-              child: Text(Strings.get(category.toString())!, style: TextStyle(color: CommonColors.black, fontSize: 20),),
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Theme.of(context).primaryColor, width: 1.0),
-        ),
+  Widget buildCategoryGridItem(FoodCategory category) {
+    return Card(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor
+              ),
+            ),
+            flex: 3,
+            fit: FlexFit.tight,
+          ),
+          Flexible(
+            child: Container(
+              color: Theme.of(context).cardColor,
+              child: Center(
+                child: Text(Strings.get(category.toString())!,
+                  style: TextStyle(color: CommonColors.black, fontSize: 20),
+                ),
+              ),
+            ),
+            flex: 1,
+            fit: FlexFit.tight,
+          )
+        ],
       ),
-      onTap: jumpToCategory(category),
     );
   }
 
-  Widget buildHeader(String title, Color textColor, Color backgroundColor, double fontSize) {
+  Widget buildHeader(String title, Color textColor, double fontSize) {
     return SliverPadding(
       padding: EdgeInsets.all(10),
-      sliver: SliverToBoxAdapter(
-        child: DecoratedBox(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(title, style: TextStyle(color: textColor, fontSize: fontSize),),
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: backgroundColor,
-            boxShadow: [defaultBoxShadow]
-          ),
-        ),
-      ),
+      sliver: SliverToBoxAdapter(child: Text(title, style: TextStyle(color: textColor, fontSize: fontSize,),)),
     );
   }
 
   List<Widget> buildFoodsGridView(BuildContext context, FoodCategory category) {
     return <Widget>[
-      buildHeader(Strings.get(category.toString())!, Colors.white, goodColor, 18.0),
+      buildHeader(Strings.get(category.toString())!, goodColor, 24.0),
       SliverPadding(
         padding: EdgeInsets.all(10),
         sliver: SliverGrid.count(
           crossAxisCount: 2,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
-          childAspectRatio: 1,
+          childAspectRatio: 0.7,
           children: [
             for (var food in menu!.getFoods(category)!)
               buildFoodGridItem(food, context)
@@ -105,29 +103,37 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
   }
 
   buildFoodGridItem(Food food, BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        child: Stack(
-          children: [
-            // Image.asset(name),
-            Positioned(
-              child: Text(food.name),
-              left: 6,
-              bottom: 3,
+    return Card(
+      child: Column(
+        children: [
+          Flexible(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
             ),
-            Positioned(
-              child: buildAvailableIcon(food.isAvailable),
-              right: 6,
-              bottom: 3,
+            flex: 5,
+            fit: FlexFit.tight,
+          ),
+          Flexible(
+            child: ListTile(
+              title: Text(food.name),
+              trailing: buildAvailableIcon(food.isAvailable),
+              subtitle: Text('${food.price} Toman'),
             ),
-          ],
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Theme.of(context).primaryColor, width: 1.0),
-        ),
+            flex: 2,
+            fit: FlexFit.tight,
+          ),
+          Flexible(
+            child: TextButton(
+              onPressed: () => showFoodBottomSheet(food),
+              child: Text('Edit'),
+            ),
+            flex: 1,
+            fit: FlexFit.tight,
+          )
+        ],
       ),
-      onTap: showFoodBottomSheet(food, context),
     );
   }
 
@@ -138,7 +144,8 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
     return Icon(Icons.highlight_remove_rounded, color: Colors.red,);
   }
 
-  showFoodBottomSheet(Food food, BuildContext context) {}
+  void showFoodBottomSheet(Food food) {
+  }
 
   jumpToCategory(FoodCategory category) {}
 
