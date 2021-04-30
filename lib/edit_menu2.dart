@@ -153,6 +153,69 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
   }
 
   void showFoodBottomSheet(Food food) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context){
+          return Container(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child:TextFormField(
+                      decoration: InputDecoration(
+                          icon: Icon(Icons.drive_file_rename_outline)),
+                      initialValue: food.name,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child:TextFormField(
+                      decoration: InputDecoration(
+                          icon: Icon(Icons.monetization_on)
+                      ),
+                      initialValue: food.price.toString(),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child:TextFormField(
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.menu_book)
+                      ),
+                      initialValue: food.description ,
+                    ),
+                  ),
+                  Switch(
+                      value: food.isAvailable,
+                      onChanged: (value){
+                        setState(() {
+                          food.isAvailable = value;
+                        });
+                      },
+                      activeColor: CommonColors.green,
+                      inactiveTrackColor: CommonColors.red,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      buildModelButton("Delete", CommonColors.red as Color, () {
+                        setState(() {
+                          menu!.removeFood(food);
+                          Navigator.of(context).pop();
+                        });
+                      }),
+                      buildModelButton("Edit", CommonColors.green as Color, () {
+                        print('to be implemented');
+                      })
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+    );
   }
 
   jumpToCategory(FoodCategory category) {}
