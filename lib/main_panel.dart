@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant/order_page_widget.dart';
 import 'edit_menu2.dart';
 import 'package:models/models.dart';
 
@@ -47,7 +48,7 @@ class _MainPanelState extends State<MainPanel> {
   var _pages = <Widget>[
     Center(child: Text('To Be Implemented'),),
     EditMenuPanel(),
-    Center(child: Text('To Be Implemented'),),
+    OrderPagePanel(),
   ];
 
 }
