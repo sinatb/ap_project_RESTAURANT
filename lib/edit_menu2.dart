@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'edit_food_card.dart';
 
 class EditMenuPanel extends StatefulWidget {
   @override
@@ -103,120 +104,13 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
           childAspectRatio: 0.7,
           children: [
             for (var food in menu!.getFoods(category)!)
-              buildFoodGridItem(food, context)
+              EditFoodCard(food, () => setState((){}))
           ],
         ),
       ),
     ];
   }
 
-  buildFoodGridItem(Food food, BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          Flexible(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-            flex: 5,
-            fit: FlexFit.tight,
-          ),
-          Flexible(
-            child: ListTile(
-              title: Text(food.name),
-              trailing: buildAvailableIcon(food.isAvailable),
-              subtitle: Text('${food.price} ${Strings.get('toman')}'),
-            ),
-            flex: 2,
-            fit: FlexFit.tight,
-          ),
-          Flexible(
-            child: TextButton(
-              onPressed: () => showFoodBottomSheet(food),
-              child: Text(Strings.get('food-item-edit-button')!),
-            ),
-            flex: 1,
-            fit: FlexFit.tight,
-          )
-        ],
-      ),
-    );
-  }
-
-  Icon buildAvailableIcon(bool isAvailable) {
-    if (isAvailable) {
-      return Icon(Icons.check_circle, color: Colors.green,);
-    }
-    return Icon(Icons.highlight_remove_rounded, color: Colors.red,);
-  }
-
-  void showFoodBottomSheet(Food food) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context){
-          return Container(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child:TextFormField(
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.drive_file_rename_outline)),
-                      initialValue: food.name,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child:TextFormField(
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.monetization_on)
-                      ),
-                      initialValue: food.price.toString(),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child:TextFormField(
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.menu_book)
-                      ),
-                      initialValue: food.description ,
-                    ),
-                  ),
-                  Switch(
-                      value: food.isAvailable,
-                      onChanged: (value){
-                        setState(() {
-                          food.isAvailable = value;
-                        });
-                      },
-                      activeColor: CommonColors.green,
-                      inactiveTrackColor: CommonColors.red,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      buildModelButton("Delete", CommonColors.red as Color, () {
-                        setState(() {
-                          menu!.removeFood(food);
-                          Navigator.of(context).pop();
-                        });
-                      }),
-                      buildModelButton("Edit", CommonColors.green as Color, () {
-                        print('to be implemented');
-                      })
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        }
-    );
-  }
 
   jumpToCategory(FoodCategory category) {}
 
