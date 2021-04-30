@@ -15,8 +15,6 @@ class _OrderPagePanelState extends State<OrderPagePanel>
 
     _ordersActive = (Head.of(context).server.account as OwnerAccount).activeOrders;
     _previousOrders = (Head.of(context).server.account as OwnerAccount).previousOrders;
-
-
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -24,49 +22,45 @@ class _OrderPagePanelState extends State<OrderPagePanel>
           centerTitle: true,
           title: Text(Strings.get('orders-menu-header')!,),
         ),
-        ...buildListOfOrders(context, _ordersActive),
-        ...buildListOfOrders(context, _previousOrders),
-
+        buildListOfOrders(context, _ordersActive),
+        //buildListOfOrders(context, _previousOrders),
       ],
     );
 
   }
 
-  List<Widget> buildListOfOrders(BuildContext context, List<Order> orders) {
-    return <Widget>[
-      SliverPadding(
-        padding: EdgeInsets.all(15),
+  Widget buildListOfOrders(BuildContext context, List<Order> orders) {
+    return SliverPadding(
+        padding: EdgeInsets.all(10),
         sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              buildListElements(context, orders.elementAt(index));
-            },
-            childCount: orders.length,
+          delegate: SliverChildListDelegate(
+            sliverChildListDelegateWidgetBuilder(context,orders)
           ),
         ),
-      )
-    ];
+      );
   }
-
-  Widget buildListElements(BuildContext context , Order order)
+  List<Widget> sliverChildListDelegateWidgetBuilder(BuildContext context,List<Order> orders)
   {
+   return List<Widget>.generate(orders.length, (index) => buildListElements(context, orders.elementAt(index)));
+  }
+  Widget buildListElements(BuildContext context, Order order) {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             leading: buildAvailableIcon(order.isDelivered),
-            title:Text(order.customer.firstName),
+            title: Text(order.customer.firstName),
             subtitle: Text(order.time.toString()),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              buildModelButton('Details', CommonColors.green as Color, (){
+              buildModelButton('Details', CommonColors.green as Color, () {
                 showDetailsModalSheet(order);
               })
             ],
-          )
+          ),
         ],
       ),
     );
@@ -74,7 +68,7 @@ class _OrderPagePanelState extends State<OrderPagePanel>
 
   void showDetailsModalSheet(Order order)
   {
-
+    //to be implemented
   }
 
   Icon buildAvailableIcon(bool isAvailable) {
