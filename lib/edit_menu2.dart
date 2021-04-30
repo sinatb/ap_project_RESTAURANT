@@ -19,10 +19,11 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
       slivers: [
         SliverAppBar(
           floating: true,
+          centerTitle: true,
+          leading: IconButton(icon: Icon(Icons.add), tooltip: Strings.get('add-food-tooltip'), onPressed: (){},),
           title: Text(Strings.get('bottom-nav-label-edit')!,),
           actions: [
-            IconButton(icon: Icon(Icons.settings), onPressed: (){}),
-            IconButton(icon: Icon(Icons.search), onPressed: (){}),
+            IconButton(icon: Icon(Icons.search), tooltip: Strings.get('search-menu-tooltip'), onPressed: (){}),
           ],
         ),
         buildHeader(Strings.get('edit-menu-categories-header')!, goodColor, 24),
@@ -79,7 +80,14 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
   Widget buildHeader(String title, Color textColor, double fontSize) {
     return SliverPadding(
       padding: EdgeInsets.all(10),
-      sliver: SliverToBoxAdapter(child: Text(title, style: TextStyle(color: textColor, fontSize: fontSize,),)),
+      sliver: SliverToBoxAdapter(
+          child: Column(
+            children: [
+              Text(title, style: TextStyle(color: textColor, fontSize: fontSize,),),
+              Divider(thickness: 2,),
+            ],
+          )
+      ),
     );
   }
 
@@ -119,7 +127,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
             child: ListTile(
               title: Text(food.name),
               trailing: buildAvailableIcon(food.isAvailable),
-              subtitle: Text('${food.price} Toman'),
+              subtitle: Text('${food.price} ${Strings.get('toman')}'),
             ),
             flex: 2,
             fit: FlexFit.tight,
@@ -127,7 +135,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
           Flexible(
             child: TextButton(
               onPressed: () => showFoodBottomSheet(food),
-              child: Text('Edit'),
+              child: Text(Strings.get('food-item-edit-button')!),
             ),
             flex: 1,
             fit: FlexFit.tight,
