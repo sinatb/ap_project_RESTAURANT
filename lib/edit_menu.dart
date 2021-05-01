@@ -110,8 +110,5 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
       ),
     ];
   }
-
-
   jumpToCategory(FoodCategory category) {}
-
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:restaurant/order_buttom_sheet.dart';
 
 class OrderPagePanel extends StatefulWidget {
   @override
@@ -66,9 +67,12 @@ class _OrderPagePanelState extends State<OrderPagePanel>
     );
   }
 
-  void showDetailsModalSheet(Order order)
-  {
-    //to be implemented
+  void showDetailsModalSheet(Order order)  {
+     showModalBottomSheet(
+        context: context,
+        builder: (context) => OrderBottomSheet(order, ()=>setState(() {})),
+
+    );
   }
 
   Icon buildAvailableIcon(bool isAvailable) {
