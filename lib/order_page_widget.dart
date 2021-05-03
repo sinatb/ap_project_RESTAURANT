@@ -23,6 +23,7 @@ class _OrderPagePanelState extends State<OrderPagePanel>
           centerTitle: true,
           title: Text(Strings.get('orders-menu-header')!,),
         ),
+        buildHeader(Strings.get('order-page-active-orders')!, CommonColors.cyan, 24),
         buildListOfOrders(context, _ordersActive),
         //buildListOfOrders(context, _previousOrders),
       ],
@@ -71,10 +72,21 @@ class _OrderPagePanelState extends State<OrderPagePanel>
      showModalBottomSheet(
         context: context,
         builder: (context) => OrderBottomSheet(order, ()=>setState(() {})),
-
     );
   }
-
+  Widget buildHeader(String title, Color textColor, double fontSize) {
+    return SliverPadding(
+      padding: EdgeInsets.all(10),
+      sliver: SliverToBoxAdapter(
+          child: Column(
+            children: [
+              Text(title, style: TextStyle(color: textColor, fontSize: fontSize,),),
+              Divider(thickness: 2,),
+            ],
+          )
+      ),
+    );
+  }
   Icon buildAvailableIcon(bool isAvailable) {
     if (isAvailable) {
       return Icon(Icons.check_circle, color: Colors.green,);

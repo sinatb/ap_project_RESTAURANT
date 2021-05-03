@@ -16,10 +16,9 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
     List<Widget> retVal = [];
     order.items.forEach((key, value) {
       retVal.add(Card(
-
         child: Row(
           children: [
-            Flexible(
+            Container(
               child: Container(
                   width: 75,
                   height: 75,
@@ -28,20 +27,20 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
               )),
             ),
             Spacer(flex: 1,),
-            Flexible(
+            Container(
                 child: Container(
                   child: Text(key.name),
               ),
 
             ),
             Spacer(flex: 2,),
-            Flexible(
+            Container(
                 child: Container(
                   child: Text(order.items[key].toString()),
                 ),
             ),
             Spacer(flex: 1,),
-            Flexible(
+            Container(
                child: Container(
                 child: Text((key.price.toInt()*order.items[key]!).toString()),
               )
@@ -68,9 +67,20 @@ class _OrderBottomSheetState extends State<OrderBottomSheet> {
                 enabled: false,
               )
           ),
-          ...buildFoodOrderItems(widget.order),
           Padding(
-            padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              child:TextFormField(
+                initialValue: widget.order.time.toString(),
+                decoration: InputDecoration(
+                  icon: Icon(Icons.timer)
+                ),
+                enabled: false,
+              ),
+          ),
+          ...buildFoodOrderItems(widget.order),
+          Text(Strings.get('order-bottom-sheet-is-ready')!),
+          Padding(
+            padding: EdgeInsets.all(5),
             child: Switch(
               value: widget.order.isDelivered,
               onChanged: (value) {

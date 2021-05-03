@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:restaurant/add_food.dart';
 import 'edit_food_card.dart';
 
 class EditMenuPanel extends StatefulWidget {
@@ -21,7 +22,13 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
         SliverAppBar(
           floating: true,
           centerTitle: true,
-          leading: IconButton(icon: Icon(Icons.add), tooltip: Strings.get('add-food-tooltip'), onPressed: (){},),
+          leading: IconButton(icon: Icon(Icons.add), tooltip: Strings.get('add-food-tooltip'),
+            onPressed:(){
+              showModalBottomSheet(context: context,
+                  builder:(context)=>AddFood(() =>setState((){})),
+              );
+            },
+          ),
           title: Text(Strings.get('bottom-nav-label-edit')!,),
           actions: [
             IconButton(icon: Icon(Icons.search), tooltip: Strings.get('search-menu-tooltip'), onPressed: (){}),
