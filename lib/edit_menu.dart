@@ -10,23 +10,28 @@ class EditMenuPanel extends StatefulWidget {
 
 class _EditMenuPanelState extends State<EditMenuPanel> {
 
-  FoodMenu? menu;
+  late FoodMenu menu;
   var goodColor = Color(0xff05a8aa);
   var defaultBoxShadow = BoxShadow(spreadRadius: 0.4, blurRadius: 3, color: Colors.grey);
 
   @override
   Widget build(BuildContext context) {
-    menu = (Head.of(context).server.account as OwnerAccount).restaurant.menu;
+    menu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           floating: true,
           centerTitle: true,
           leading: IconButton(icon: Icon(Icons.add), tooltip: Strings.get('add-food-tooltip'),
-            onPressed:(){
-              showModalBottomSheet(context: context,
-                  builder:(context)=>AddFood(() =>setState((){})),
+            onPressed:() async {
+              var newFood = await showModalBottomSheet(context: context,
+                  builder:(context)=>AddFood(),
               );
+              if (newFood != null) {
+                setState(() {
+                  menu.addFood(newFood);
+                });
+              }
             },
           ),
           title: Text(Strings.get('bottom-nav-label-edit')!,),
@@ -43,12 +48,12 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
             crossAxisSpacing: 20,
             childAspectRatio: 1,
             children: [
-              for (var category in menu!.categories)
+              for (var category in menu.categories)
                 buildCategoryGridItem(category)
             ],
           ),
         ),
-        for (var category in menu!.categories)
+        for (var category in menu.categories)
           ...buildFoodsGridView(context, category)
       ],
     );
@@ -110,7 +115,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
           mainAxisSpacing: 20,
           childAspectRatio: 0.7,
           children: [
-            for (var food in menu!.getFoods(category)!)
+            for (var food in menu.getFoods(category)!)
               EditFoodCard(food, () => setState((){}))
           ],
         ),
