@@ -22,20 +22,15 @@ class _OrderCardState extends State<OrderCard> {
 
     return Card(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: buildAvailableIcon(order.isDelivered),
-            title: Text(order.customer.firstName),
-            subtitle: Text(order.time.toString()),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              buildModelButton('Details', CommonColors.green as Color, () {
-                showDetailsModalSheet(order);
-              })
-            ],
+            leading: buildIsDelivered(order.isDelivered),
+            title: Text('${order.customer.firstName} ${order.customer.lastName}'),
+            subtitle: Text('${order.totalCost} ${Strings.get('toman')}'),
+            trailing: TextButton(
+              onPressed: () => showDetailsModalSheet(order),
+              child: Text(Strings.get('order-details-button')!),
+            ),
           ),
         ],
       ),
@@ -47,6 +42,14 @@ class _OrderCardState extends State<OrderCard> {
       context: context,
       builder: (context) => OrderBottomSheet(order, () => setState(() {})),
     );
+  }
+
+  Widget buildIsDelivered(bool isDelivered) {
+
+    if (isDelivered) {
+      return Icon(Icons.done_rounded, color: Colors.green,);
+    }
+    return Icon(Icons.close, color: Colors.red,);
   }
 
 }
