@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'reused_ui.dart';
+
 class AddFood extends StatefulWidget {
 
   @override
@@ -13,7 +15,8 @@ class _AddFoodState extends State<AddFood> {
   int _price = 0;
   String? _desc;
   FoodCategory _category = FoodCategory.values[0];
-  @override
+
+  double _padding = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +25,10 @@ class _AddFoodState extends State<AddFood> {
         key: _formKey,
         child: Column(
           children: [
-            buildNameField(),
-            buildDescriptionField(),
-            buildPriceField(),
-            buildCategoryDropdown(),
+            buildNameField(_padding, (name) => _name = name!),
+            buildDescriptionField(_padding, (desc) => _desc = desc),
+            buildPriceField(_padding, (price) => _price = int.parse(price!)),
+            buildCategoryDropdown(_padding),
             Center(
               child: buildModelButton('Create', CommonColors.green!, createFood),
             ),
@@ -35,9 +38,9 @@ class _AddFoodState extends State<AddFood> {
     );
   }
 
-  Padding buildCategoryDropdown() {
+  Widget buildCategoryDropdown(double padding) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(padding),
       child: DropdownButton<FoodCategory>(
         value: _category,
         items: FoodCategory.values.map((category) =>
@@ -46,86 +49,20 @@ class _AddFoodState extends State<AddFood> {
               child: Text(Strings.get(category.toString())!),
             )
         ).toList(),
-        onChanged: (category) {
-          setState(() {
-            _category = category!;
-          });
-          },
+        onChanged: (category) => setState(() => _category = category!),
       ),
     );
   }
 
-  Padding buildPriceField() {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: TextFormField(
-        keyboardType: TextInputType.number,
-        validator: (String? number) {
-          if (number == null || number.isEmpty) {
-            return Strings.get('add-food-empty-price-error');
-          }
-          var parsed = int.tryParse(number);
-          if (parsed == null || parsed <= 0) {
-            return Strings.get('add-food-invalid-price-error');
-          }
-          },
-        onSaved: (value) {
-          _price = int.parse(value!);
-          },
-        decoration: InputDecoration(
-          hintText: Strings.get('add-bottom-sheet-food-price')!,
-          icon: Icon(Icons.attach_money_rounded),
-        ),
-      ),
-    );
-  }
-
-  Padding buildDescriptionField() {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: TextFormField(
-        keyboardType: TextInputType.multiline,
-        maxLength: 400,
-        maxLines: 3,
-        onSaved: (desc) {
-          _desc = desc;
-          },
-        decoration: InputDecoration(
-          hintText: Strings.get('add-bottom-sheet-food-description')!,
-          icon: Icon(Icons.text_snippet_outlined),
-          hintMaxLines: 3,
-        ),
-      ),
-    );
-  }
-
-  Padding buildNameField() {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: TextFormField(
-        validator: (name) {
-          if (name == null || name.isEmpty) {
-            return Strings.get('add-food-empty-name-error');
-          }
-          },
-        onSaved: (name) {
-          _name = name!;
-          },
-        decoration: InputDecoration(
-          hintText: Strings.get('add-bottom-sheet-food-name')!,
-          icon: Icon(Icons.fastfood_sharp),
-        ),
-      ),
-    );
-  }
-      void createFood() {
-        if (!_formKey.currentState!.validate()) {
-          return;
-        }
-        _formKey.currentState!.save();
-        var server = Head.of(context).server;
-        Food food = Food(category: _category, name: _name, price: Price(_price), server: server, description: _desc);
-        food.serialize(server.serializer);
-        Navigator.of(context).pop(food);
-      }
+  void createFood() {
+    if (!_formKey.currentState!.validate()) {
+      return;
     }
+    _formKey.currentState!.save();
+    var server = Head.of(context).server;
+    Food food = Food(category: _category, name: _name, price: Price(_price), server: server, description: _desc);
+    food.serialize(server.serializer);
+    Navigator.of(context).pop(food);
+  }
+
+}

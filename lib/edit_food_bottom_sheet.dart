@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'reused_ui.dart';
 
 class EditBottomSheet extends StatefulWidget {
 
@@ -12,57 +13,20 @@ class EditBottomSheet extends StatefulWidget {
 }
 
 class _EditBottomSheetState extends State<EditBottomSheet> {
-  TextEditingController _name = TextEditingController();
-  TextEditingController _price = TextEditingController();
-  TextEditingController _description = TextEditingController();
 
-  @override
-  void dispose() {
-    _name.dispose();
-    _price.dispose();
-    _description.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
-
+  var _formKey = GlobalKey<FormState>();
+  double _padding = 20;
 
   @override
   Widget build(BuildContext context) {
-
-    _name.text = widget.food.name;
-    _price.text = widget.food.price.toString();
-    _description.text = widget.food.description;
-
-    return Container(
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
         child: Column(
           children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child:TextFormField(
-                controller: _name,
-                decoration: InputDecoration(
-                    icon: Icon(Icons.drive_file_rename_outline)),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child:TextFormField(
-                controller: _price,
-                decoration: InputDecoration(
-                    icon: Icon(Icons.monetization_on)
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child:TextFormField(
-                controller: _description,
-                decoration: InputDecoration(
-                    icon: Icon(Icons.menu_book)
-                ),
-              ),
-            ),
+            buildNameField(_padding, (name) => widget.food.name = name!, widget.food.name),
+            buildDescriptionField(_padding, (desc) => widget.food.description = desc ?? '', widget.food.description),
+            buildPriceField(_padding, (price) => widget.food.price = Price(int.parse(price!)), widget.food.price.toString()),
             Switch(
               value: widget.food.isAvailable,
               onChanged: (value){
@@ -90,9 +54,10 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                   });
                 }),
                 buildModelButton(Strings.get('edit-bottom-sheet-save')!, CommonColors.green as Color, () {
+                  if (_formKey.currentState!.validate() == false) return;
+                  _formKey.currentState!.save();
                   setState(() {
-                    editFood(_name.text, _price.text, _description.text);
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(true);
                   });
                 })
               ],
@@ -101,14 +66,6 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
         ),
       ),
     );
-  }
-
-  void editFood(String newName , String newPrice , String newDesc)
-  {
-      widget.food.name = newName;
-      widget.food.price = Price(int.parse(newPrice));
-      widget.food.description = newDesc;
-      widget.rebuildMenu();
   }
 
   buildRemoveDialog() {

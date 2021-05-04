@@ -52,12 +52,13 @@ class _EditFoodCardState extends State<EditFoodCard> {
   }
 
   void showFoodBottomSheet(Food food) async {
-    await showModalBottomSheet(
+    var pressedSave = await showModalBottomSheet(
       context: context,
       builder: (context) => EditBottomSheet(food, widget.rebuildMenu),
-      isDismissible: false,
     );
-    setState(() {
-    });
+    if (pressedSave == true) {
+      setState(() {
+      });
+    }
   }
 }
