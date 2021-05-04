@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:restaurant/add_food.dart';
 import 'edit_food_card.dart';
+import 'reused_ui.dart';
 
 class EditMenuPanel extends StatefulWidget {
   @override
@@ -86,20 +87,6 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
             fit: FlexFit.tight,
           )
         ],
-      ),
-    );
-  }
-
-  Widget buildHeader(String title, Color textColor, double fontSize) {
-    return SliverPadding(
-      padding: EdgeInsets.all(10),
-      sliver: SliverToBoxAdapter(
-          child: Column(
-            children: [
-              Text(title, style: TextStyle(color: textColor, fontSize: fontSize,),),
-              Divider(thickness: 2,),
-            ],
-          )
       ),
     );
   }
