@@ -12,8 +12,27 @@ class EditBottomSheet extends StatefulWidget {
 }
 
 class _EditBottomSheetState extends State<EditBottomSheet> {
+  TextEditingController _name = TextEditingController();
+  TextEditingController _price = TextEditingController();
+  TextEditingController _description = TextEditingController();
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _price.dispose();
+    _description.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
+    _name.text = widget.food.name;
+    _price.text = widget.food.price.toString();
+    _description.text = widget.food.description;
+
     return Container(
       child: SingleChildScrollView(
         child: Column(
@@ -21,27 +40,27 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
             Container(
               padding: EdgeInsets.all(20),
               child:TextFormField(
+                controller: _name,
                 decoration: InputDecoration(
                     icon: Icon(Icons.drive_file_rename_outline)),
-                initialValue: widget.food.name,
               ),
             ),
             Container(
               padding: EdgeInsets.all(20),
               child:TextFormField(
+                controller: _price,
                 decoration: InputDecoration(
                     icon: Icon(Icons.monetization_on)
                 ),
-                initialValue: widget.food.price.toString(),
               ),
             ),
             Container(
               padding: EdgeInsets.all(20),
               child:TextFormField(
+                controller: _description,
                 decoration: InputDecoration(
                     icon: Icon(Icons.menu_book)
                 ),
-                initialValue: widget.food.description ,
               ),
             ),
             Switch(
@@ -72,6 +91,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                 }),
                 buildModelButton(Strings.get('edit-bottom-sheet-save')!, CommonColors.green as Color, () {
                   setState(() {
+                    editFood(_name.text, _price.text, _description.text);
                     Navigator.of(context).pop();
                   });
                 })
@@ -81,6 +101,14 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
         ),
       ),
     );
+  }
+
+  void editFood(String newName , String newPrice , String newDesc)
+  {
+      widget.food.name = newName;
+      widget.food.price = Price(int.parse(newPrice));
+      widget.food.description = newDesc;
+      widget.rebuildMenu();
   }
 
   buildRemoveDialog() {

@@ -11,11 +11,13 @@ class AddFood extends StatefulWidget {
 class _AddFoodState extends State<AddFood> {
   TextEditingController _name = TextEditingController();
   TextEditingController _price = TextEditingController();
-  FoodCategory f = FoodCategory.Iranian;
+  TextEditingController _description = TextEditingController();
+  FoodCategory foodCategory = FoodCategory.Iranian;
   @override
   void dispose() {
     _name.dispose();
     _price.dispose();
+    _description.dispose();
     // TODO: implement dispose
     super.dispose();
   }
@@ -31,6 +33,7 @@ class _AddFoodState extends State<AddFood> {
               child: TextFormField(
                 controller: _name,
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
                   hintText: Strings.get('add-bottom-sheet-food-name')!,
                   icon: Icon(Icons.fastfood_sharp),
                 ),
@@ -41,23 +44,37 @@ class _AddFoodState extends State<AddFood> {
               child: TextFormField(
                 controller: _price,
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
                   hintText: Strings.get('add-bottom-sheet-food-price')!,
                   icon: Icon(Icons.attach_money_rounded),
                 ),
               ),
             ),
             Padding(
+                padding: EdgeInsets.all(10),
+                child: TextFormField(
+                  minLines: 2,
+                  maxLines: 5,
+                  controller: _description,
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                    hintText: Strings.get('add-bottom-sheet-food-description'),
+                    icon: Icon(Icons.drive_file_rename_outline),
+                  ),
+                ),
+            ),
+            Padding(
               padding: EdgeInsets.all(10),
               child: DropdownButton<String>(
-                value: f.toString().substring(13),
+                value: foodCategory.toString().substring(13),
                 onChanged: (String? newValue){
                   setState(() {
                     if (newValue == 'Iranian')
-                      f = FoodCategory.Iranian;
+                      foodCategory = FoodCategory.Iranian;
                     else if (newValue == 'SeaFood')
-                      f = FoodCategory.SeaFood;
+                      foodCategory = FoodCategory.SeaFood;
                     else if (newValue == 'FastFood')
-                      f=FoodCategory.FastFood;
+                      foodCategory = FoodCategory.FastFood;
                   });
                 },
                 items:<String>['Iranian', 'SeaFood', 'FastFood']
@@ -72,7 +89,7 @@ class _AddFoodState extends State<AddFood> {
             Center(
               child: buildModelButton('Create', CommonColors.green!, ()
               {
-                createFood(_name.text,f,Price(int.parse(_price.text)));
+                createFood(_name.text,foodCategory,_description.text,Price(int.parse(_price.text)));
                 Navigator.pop(context);
               }
               ),
@@ -80,10 +97,10 @@ class _AddFoodState extends State<AddFood> {
           ],
         ));
       }
-      void createFood(String name , FoodCategory f , Price p)
+      void createFood(String name , FoodCategory f ,String descript , Price p)
       {
         var s = (Head.of(context).server.account as OwnerAccount).restaurant;
-        s.menu!.addFood(new Food(name: name , category: f , price: p , server: Head.of(context).server));
+        s.menu!.addFood(new Food(name: name , category: f , price: p , description: descript , server: Head.of(context).server));
         widget.rebuildMenu();
       }
     }
