@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'edit_food_bottom_sheet.dart';
+import 'reused_ui.dart';
 
 class EditFoodCard extends StatefulWidget {
   final Food food;
@@ -48,13 +49,6 @@ class _EditFoodCardState extends State<EditFoodCard> {
         ],
       ),
     );
-  }
-
-  Widget buildAvailableIcon(isAvailable) {
-    if (isAvailable) {
-      return Icon(Icons.check_circle, color: Colors.green,);
-    }
-    return Icon(Icons.highlight_remove_rounded, color: Colors.red,);
   }
 
   void showFoodBottomSheet(Food food) async {

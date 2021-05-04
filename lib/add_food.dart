@@ -2,105 +2,130 @@ import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 class AddFood extends StatefulWidget {
 
-  final VoidCallback rebuildMenu;
-  AddFood(this.rebuildMenu):super();
   @override
   _AddFoodState createState() => _AddFoodState();
 }
 
 class _AddFoodState extends State<AddFood> {
-  TextEditingController _name = TextEditingController();
-  TextEditingController _price = TextEditingController();
-  TextEditingController _description = TextEditingController();
-  FoodCategory foodCategory = FoodCategory.Iranian;
-  @override
-  void dispose() {
-    _name.dispose();
-    _price.dispose();
-    _description.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
 
+  var _formKey = GlobalKey<FormState>();
+  String _name = '';
+  int _price = 0;
+  String? _desc;
+  FoodCategory _category = FoodCategory.values[0];
+  @override
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                controller: _name,
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                  hintText: Strings.get('add-bottom-sheet-food-name')!,
-                  icon: Icon(Icons.fastfood_sharp),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                controller: _price,
-                decoration: InputDecoration(
-                  hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                  hintText: Strings.get('add-bottom-sheet-food-price')!,
-                  icon: Icon(Icons.attach_money_rounded),
-                ),
-              ),
-            ),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  minLines: 2,
-                  maxLines: 5,
-                  controller: _description,
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                    hintText: Strings.get('add-bottom-sheet-food-description'),
-                    icon: Icon(Icons.drive_file_rename_outline),
-                  ),
-                ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: DropdownButton<String>(
-                value: foodCategory.toString().substring(13),
-                onChanged: (String? newValue){
-                  setState(() {
-                    if (newValue == 'Iranian')
-                      foodCategory = FoodCategory.Iranian;
-                    else if (newValue == 'SeaFood')
-                      foodCategory = FoodCategory.SeaFood;
-                    else if (newValue == 'FastFood')
-                      foodCategory = FoodCategory.FastFood;
-                  });
-                },
-                items:<String>['Iranian', 'SeaFood', 'FastFood']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
+            buildNameField(),
+            buildDescriptionField(),
+            buildPriceField(),
+            buildCategoryDropdown(),
             Center(
-              child: buildModelButton('Create', CommonColors.green!, ()
-              {
-                createFood(_name.text,foodCategory,_description.text,Price(int.parse(_price.text)));
-                Navigator.pop(context);
-              }
-              ),
-            )
+              child: buildModelButton('Create', CommonColors.green!, createFood),
+            ),
           ],
-        ));
-      }
-      void createFood(String name , FoodCategory f ,String descript , Price p)
-      {
-        var s = (Head.of(context).server.account as OwnerAccount).restaurant;
-        s.menu!.addFood(new Food(name: name , category: f , price: p , description: descript , server: Head.of(context).server));
-        widget.rebuildMenu();
+        ),
+      ),
+    );
+  }
+
+  Padding buildCategoryDropdown() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: DropdownButton<FoodCategory>(
+        value: _category,
+        items: FoodCategory.values.map((category) =>
+            DropdownMenuItem<FoodCategory>(
+              value: category,
+              child: Text(Strings.get(category.toString())!),
+            )
+        ).toList(),
+        onChanged: (category) {
+          setState(() {
+            _category = category!;
+          });
+          },
+      ),
+    );
+  }
+
+  Padding buildPriceField() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        validator: (String? number) {
+          if (number == null || number.isEmpty) {
+            return Strings.get('add-food-empty-price-error');
+          }
+          var parsed = int.tryParse(number);
+          if (parsed == null || parsed <= 0) {
+            return Strings.get('add-food-invalid-price-error');
+          }
+          },
+        onSaved: (value) {
+          _price = int.parse(value!);
+          },
+        decoration: InputDecoration(
+          hintText: Strings.get('add-bottom-sheet-food-price')!,
+          icon: Icon(Icons.attach_money_rounded),
+        ),
+      ),
+    );
+  }
+
+  Padding buildDescriptionField() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: TextFormField(
+        keyboardType: TextInputType.multiline,
+        maxLength: 400,
+        maxLines: 3,
+        onSaved: (desc) {
+          _desc = desc;
+          },
+        decoration: InputDecoration(
+          hintText: Strings.get('add-bottom-sheet-food-description')!,
+          icon: Icon(Icons.text_snippet_outlined),
+          hintMaxLines: 3,
+        ),
+      ),
+    );
+  }
+
+  Padding buildNameField() {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: TextFormField(
+        validator: (name) {
+          if (name == null || name.isEmpty) {
+            return Strings.get('add-food-empty-name-error');
+          }
+          },
+        onSaved: (name) {
+          _name = name!;
+          },
+        decoration: InputDecoration(
+          hintText: Strings.get('add-bottom-sheet-food-name')!,
+          icon: Icon(Icons.fastfood_sharp),
+        ),
+      ),
+    );
+  }
+      void createFood() {
+        if (!_formKey.currentState!.validate()) {
+          return;
+        }
+        _formKey.currentState!.save();
+        var server = Head.of(context).server;
+        Food food = Food(category: _category, name: _name, price: Price(_price), server: server, description: _desc);
+        food.serialize(server.serializer);
+        Navigator.of(context).pop(food);
       }
     }

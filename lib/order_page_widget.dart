@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:restaurant/order_buttom_sheet.dart';
+import 'reused_ui.dart';
 
 class OrderPagePanel extends StatefulWidget {
   @override
@@ -73,25 +74,6 @@ class _OrderPagePanelState extends State<OrderPagePanel>
         context: context,
         builder: (context) => OrderBottomSheet(order, ()=>setState(() {})),
     );
-  }
-  Widget buildHeader(String title, Color textColor, double fontSize) {
-    return SliverPadding(
-      padding: EdgeInsets.all(10),
-      sliver: SliverToBoxAdapter(
-          child: Column(
-            children: [
-              Text(title, style: TextStyle(color: textColor, fontSize: fontSize,),),
-              Divider(thickness: 2,),
-            ],
-          )
-      ),
-    );
-  }
-  Icon buildAvailableIcon(bool isAvailable) {
-    if (isAvailable) {
-      return Icon(Icons.check_circle, color: Colors.green,);
-    }
-    return Icon(Icons.highlight_remove_rounded, color: Colors.red,);
   }
 }
 
