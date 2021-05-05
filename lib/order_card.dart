@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'reused_ui.dart';
-import 'order_bottom_sheet.dart';
 
 class OrderCard extends StatefulWidget {
 
@@ -15,41 +13,108 @@ class OrderCard extends StatefulWidget {
 
 class _OrderCardState extends State<OrderCard> {
 
+  static const bold = TextStyle(fontWeight: FontWeight.bold);
+
   @override
   Widget build(BuildContext context) {
 
     var order = widget.order;
+    var tableRows = <TableRow>[];
+    order.items.forEach((key, value) => tableRows.add(buildItemTableRow(key, value)));
 
     return Card(
-      child: Column(
+      child: ExpansionTile(
+        leading: buildIsDelivered(order.isDelivered),
+        title: Text('${order.customer.firstName} ${order.customer.lastName}'),
+        subtitle: Text('${order.totalCost} ${Strings.get('toman')}', style: bold,),
         children: [
-          ListTile(
-            leading: buildIsDelivered(order.isDelivered),
-            title: Text('${order.customer.firstName} ${order.customer.lastName}'),
-            subtitle: Text('${order.totalCost} ${Strings.get('toman')}'),
-            trailing: TextButton(
-              onPressed: () => showDetailsModalSheet(order),
-              child: Text(Strings.get('order-details-button')!),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Table(
+              children: [
+                TableRow(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text('Food name', style: bold,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text('Unit price', style: bold,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text('Count', style: bold,),
+                    ),
+                  ]
+                ),
+                ...tableRows,
+              ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top : 16.0, left: 8.0),
+            child: Row(
+              children: [
+                Text('Time:', style: bold,),
+                SizedBox(width: 20,),
+                Text(order.time.toString()),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top : 16.0, left: 8.0),
+            child: Row(
+              children: [
+                Text('Address:', style: bold,),
+                SizedBox(width: 20,),
+                Text(order.customer.address.toString()),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Row(
+              children: [
+                Text(Strings.get('order-bottom-sheet-is-ready')!),
+                Switch(
+                  value: order.isDelivered,
+                  onChanged: (newValue) => setState(() {order.isDelivered = newValue;}),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 
-  void showDetailsModalSheet(Order order)  {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => OrderBottomSheet(order, () => setState(() {})),
+  Widget buildIsDelivered(bool isDelivered) {
+    return LimitedBox(
+      child: ColoredBox(
+        child: Icon(Icons.delivery_dining, color: Colors.white,),
+        color: isDelivered ? Colors.green : Colors.amber,
+      ),
     );
   }
 
-  Widget buildIsDelivered(bool isDelivered) {
-
-    if (isDelivered) {
-      return Icon(Icons.done_rounded, color: Colors.green,);
-    }
-    return Icon(Icons.close, color: Colors.red,);
+  TableRow buildItemTableRow(FoodData foodData, int count) {
+    return TableRow(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(foodData.name),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(foodData.price.toString()),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 4.0),
+          child: Text((foodData.price.toInt() * count).toString()),
+        ),
+      ]
+    );
   }
 
 }
