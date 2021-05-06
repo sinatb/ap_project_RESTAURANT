@@ -3,6 +3,7 @@ import 'package:models/models.dart';
 import 'package:restaurant/add_food.dart';
 import 'edit_food_card.dart';
 import 'reused_ui.dart';
+import 'menu_search_bottom_sheet.dart';
 
 class EditMenuPanel extends StatefulWidget {
   @override
@@ -12,18 +13,22 @@ class EditMenuPanel extends StatefulWidget {
 class _EditMenuPanelState extends State<EditMenuPanel> {
 
   late FoodMenu menu;
-  var goodColor = Color(0xff05a8aa);
   var defaultBoxShadow = BoxShadow(spreadRadius: 0.4, blurRadius: 3, color: Colors.grey);
+  late Color headerColor;
+  bool inSearchMode = false;
 
   @override
   Widget build(BuildContext context) {
-    menu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!;
+    headerColor = Theme.of(context).accentColor;
+    if (!inSearchMode) {
+      menu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!;
+    }
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           floating: true,
           centerTitle: true,
-          leading: IconButton(icon: Icon(Icons.add), tooltip: Strings.get('add-food-tooltip'),
+          leading: inSearchMode ? null : IconButton(icon: Icon(Icons.add), tooltip: Strings.get('add-food-tooltip'),
             onPressed:() async {
               var newFood = await showModalBottomSheet(context: context,
                   builder:(context)=>AddFood(),
@@ -37,23 +42,35 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
           ),
           title: Text(Strings.get('bottom-nav-label-edit')!,),
           actions: [
-            IconButton(icon: Icon(Icons.search), tooltip: Strings.get('search-menu-tooltip'), onPressed: (){}),
+            IconButton(icon: Icon(inSearchMode ? Icons.close : Icons.search), tooltip: Strings.get('search-menu-tooltip'), onPressed: () async {
+              if (inSearchMode) {
+                setState(() {
+                  inSearchMode = false;
+                });
+                return;
+              }
+              var predicate = await showModalBottomSheet(context: context, builder: (context) => SearchBottomSheet());
+              if (predicate == null) return;
+              setState(() {
+                menu = menu.toSubMenu(predicate);
+                inSearchMode = true;
+              });
+            }),
           ],
         ),
-        buildHeader(Strings.get('edit-menu-categories-header')!, goodColor, 24),
-        SliverPadding(
-          padding: EdgeInsets.all(10),
-          sliver: SliverGrid.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 20,
-            childAspectRatio: 1,
-            children: [
-              for (var category in menu.categories)
-                buildCategoryGridItem(category)
-            ],
+        if (!inSearchMode)
+          buildHeader(Strings.get('edit-menu-categories-header')!, headerColor, 24),
+        if (!inSearchMode)
+          SliverPadding(
+            padding: EdgeInsets.all(10),
+            sliver: SliverGrid.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+              childAspectRatio: 1,
+              children: menu.categories.map((e) => buildCategoryGridItem(e)).toList(),
+            ),
           ),
-        ),
         for (var category in menu.categories)
           ...buildFoodsGridView(context, category)
       ],
@@ -93,7 +110,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
 
   List<Widget> buildFoodsGridView(BuildContext context, FoodCategory category) {
     return <Widget>[
-      buildHeader(Strings.get(category.toString())!, goodColor, 24.0),
+      buildHeader(Strings.get(category.toString())!, headerColor, 24.0),
       SliverPadding(
         padding: EdgeInsets.all(10),
         sliver: SliverGrid.count(
