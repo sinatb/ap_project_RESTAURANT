@@ -27,6 +27,7 @@ class _OrderCardState extends State<OrderCard> {
         leading: buildIsDelivered(order.isDelivered),
         title: Text('${order.customer.firstName} ${order.customer.lastName}'),
         subtitle: Text('${order.totalCost} ${Strings.get('toman')}', style: bold,),
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(12.0),
@@ -53,27 +54,15 @@ class _OrderCardState extends State<OrderCard> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top : 16.0, left: 8.0),
-            child: Row(
-              children: [
-                Text('Time:', style: bold,),
-                SizedBox(width: 20,),
-                Text(order.time.toString()),
-              ],
-            ),
+            padding: const EdgeInsets.only(top : 20.0, left: 8.0),
+            child: Text(Strings.formatDate(order.time)),
           ),
           Padding(
-            padding: const EdgeInsets.only(top : 16.0, left: 8.0),
-            child: Row(
-              children: [
-                Text('Address:', style: bold,),
-                SizedBox(width: 20,),
-                Text(order.customer.address.toString()),
-              ],
-            ),
+            padding: const EdgeInsets.only(top : 20.0, left: 8.0),
+            child: Text(order.customer.address.toString()),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(top: 5.0, left: 8.0),
             child: Row(
               children: [
                 Text(Strings.get('order-bottom-sheet-is-ready')!),

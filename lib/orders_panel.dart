@@ -10,25 +10,39 @@ class OrdersPanel extends StatefulWidget {
 
 class _OrdersPanelState extends State<OrdersPanel>
 {
-  List<Order> _ordersActive=[];
-  List<Order> _previousOrders=[];
+  late List<Order> _activeOrders;
+  late List<Order> _previousOrders;
   @override
   Widget build(BuildContext context) {
 
-    _ordersActive = (Head.of(context).server.account as OwnerAccount).activeOrders;
+    _activeOrders = (Head.of(context).server.account as OwnerAccount).activeOrders;
     _previousOrders = (Head.of(context).server.account as OwnerAccount).previousOrders;
 
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          centerTitle: true,
-          title: Text(Strings.get('orders-menu-header')!,),
-        ),
-        buildHeader(Strings.get('order-page-active-orders')!, CommonColors.cyan, 24),
-        buildListOfOrders(context, _ordersActive),
-        //buildListOfOrders(context, _previousOrders),
-      ],
+    var headerColor = Theme.of(context).accentColor;
+
+    return RefreshIndicator(
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            centerTitle: true,
+            title: Text(Strings.get('orders-menu-header')!,),
+          ),
+          if (_activeOrders.isNotEmpty)
+            buildHeader(Strings.get('order-page-active-orders')!, headerColor, 24),
+          buildListOfOrders(context, _activeOrders),
+          if (_previousOrders.isNotEmpty)
+            buildHeader(Strings.get('order-page-inactive-orders')!, headerColor, 24),
+          buildListOfOrders(context, _previousOrders),
+          if (_activeOrders.isEmpty && _previousOrders.isEmpty)
+            SliverToBoxAdapter(
+              child: Center(
+                child: Text(Strings.get('no-order-message')!),
+              ),
+            )
+        ],
+      ),
+      onRefresh: refreshList,
     );
   }
 
@@ -37,11 +51,23 @@ class _OrdersPanelState extends State<OrdersPanel>
         padding: EdgeInsets.all(10),
         sliver: SliverList(
           delegate: SliverChildListDelegate(
-            orders.map((order) => OrderCard(order)).toList(),
+            orders.map((e) => OrderCard(e)).toList(),
           ),
         ),
       );
   }
 
+
+  Future<void> refreshList() {
+    _activeOrders.where((element) => element.isDelivered).toList().forEach((element) {
+      _previousOrders.add(element);
+      _activeOrders.remove(element);
+    });
+    _previousOrders.where((element) => !element.isDelivered).toList().forEach((element) {
+      _activeOrders.add(element);
+      _previousOrders.remove(element);
+    });
+    return Future.delayed(Duration(milliseconds: 600), () => setState((){}));
+  }
 }
 
