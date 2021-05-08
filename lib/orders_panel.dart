@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'order_card.dart';
 import 'reused_ui.dart';
+import 'settings.dart';
 
 class OrdersPanel extends StatefulWidget {
   @override
@@ -27,6 +28,10 @@ class _OrdersPanelState extends State<OrdersPanel>
             floating: true,
             centerTitle: true,
             title: Text(Strings.get('orders-menu-header')!,),
+            actions: [
+              IconButton(icon: Icon(Icons.settings_rounded),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPanel())))
+            ],
           ),
           if (_activeOrders.isNotEmpty)
             buildHeader(Strings.get('order-page-active-orders')!, headerColor, 24),
