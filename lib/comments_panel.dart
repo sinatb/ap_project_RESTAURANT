@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:models/models.dart';
 
 class CommentsPanel extends StatefulWidget {
 
@@ -9,10 +10,17 @@ class CommentsPanel extends StatefulWidget {
 class _CommentsPanelState extends State<CommentsPanel> {
   @override
   Widget build(BuildContext context) {
+
+    var commentIDs = (Head.of(context).server.account as OwnerAccount).restaurant.commentIDs;
+
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: Text('To be implemented.'),
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          var comment = Head.of(context).server.getObjectByID(commentIDs[index]) as Comment;
+          return CommentTile(comment: comment, isForOwner: true);
+        },
+        itemCount: commentIDs.length,
       ),
     );
   }
