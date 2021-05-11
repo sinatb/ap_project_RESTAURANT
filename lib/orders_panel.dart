@@ -35,10 +35,12 @@ class _OrdersPanelState extends State<OrdersPanel>
           ),
           if (_activeOrders.isNotEmpty)
             buildHeader(Strings.get('order-page-active-orders')!, headerColor, 24),
-          buildListOfOrders(context, _activeOrders),
+          if (_activeOrders.isNotEmpty)
+            buildListOfOrders(context, _activeOrders),
           if (_previousOrders.isNotEmpty)
             buildHeader(Strings.get('order-page-inactive-orders')!, headerColor, 24),
-          buildListOfOrders(context, _previousOrders),
+          if (_previousOrders.isNotEmpty)
+            buildListOfOrders(context, _previousOrders),
           if (_activeOrders.isEmpty && _previousOrders.isEmpty)
             SliverToBoxAdapter(
               child: Center(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-// 35.8 51.4
 
 class MapPage extends StatefulWidget {
 
@@ -27,6 +26,8 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
 
+    var address = (Head.of(context).server.account as OwnerAccount).restaurant.address;
+
     var circleMarkers = <CircleMarker>[
       if (pointIsPinned)
       CircleMarker(
@@ -35,21 +36,6 @@ class _MapPageState extends State<MapPage> {
         point: _mapController.center,
         useRadiusInMeter: true,
       )
-    ];
-    
-    var markers = <Marker>[
-      if (pointIsPinned)
-        Marker(
-          width: 30,
-          height: 30,
-          point: _mapController.center,
-          builder: (ctx) => Container(
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(30),
-            ),
-          )
-        )
     ];
 
     return Scaffold(
@@ -65,8 +51,8 @@ class _MapPageState extends State<MapPage> {
                 FlutterMap(
                   mapController: _mapController,
                   options: MapOptions(
-                    center: LatLng(35.8, 51.4),
-                    zoom: 7,
+                    center: address == null ? LatLng(35.8, 51.4) : LatLng(address.latitude, address.longitude),
+                    zoom: 9,
                     interactiveFlags: flags,
                   ),
                   layers: [
@@ -138,7 +124,11 @@ class _MapPageState extends State<MapPage> {
   void confirmPressed() {
     if (pointIsPinned) {
       var point = _mapController.center;
-      Navigator.of(context).pop({'lat': point.latitude, 'lng' : point.longitude});
+      Navigator.of(context).pop({
+        'lat': point.latitude,
+        'lng' : point.longitude,
+        'radius' : radius,
+      });
     } else {
       placeMarker();
     }
