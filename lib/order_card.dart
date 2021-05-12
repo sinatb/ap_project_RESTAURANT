@@ -55,6 +55,10 @@ class _OrderCardState extends State<OrderCard> {
           ),
           Padding(
             padding: const EdgeInsets.only(top : 20.0, left: 8.0),
+            child: Text(order.id ?? 'null'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top : 20.0, left: 8.0),
             child: Text(Strings.formatDate(order.time)),
           ),
           Padding(
@@ -100,7 +104,7 @@ class _OrderCardState extends State<OrderCard> {
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 4.0),
-          child: Text((foodData.price.toInt() * count).toString()),
+          child: Text((count).toString()),
         ),
       ]
     );

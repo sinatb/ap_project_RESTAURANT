@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:models/models.dart';
 import 'orders_panel.dart';
 import 'edit_menu.dart';
-import 'package:models/models.dart';
+import 'stats_panel.dart';
 
 class MainPanel extends StatefulWidget {
   @override
@@ -46,7 +47,7 @@ class _MainPanelState extends State<MainPanel> {
   }
 
   var _pages = <Widget>[
-    Center(child: Text('To Be Implemented'),),
+    StatsPanel(),
     EditMenuPanel(),
     OrdersPanel(),
   ];
