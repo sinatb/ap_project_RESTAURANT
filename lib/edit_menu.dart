@@ -14,12 +14,12 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
 
   late FoodMenu menu;
   var defaultBoxShadow = BoxShadow(spreadRadius: 0.4, blurRadius: 3, color: Colors.grey);
-  late Color headerColor;
   bool inSearchMode = false;
+  late TextStyle headerStyle;
 
   @override
   Widget build(BuildContext context) {
-    headerColor = Theme.of(context).accentColor;
+    headerStyle = TextStyle(color: Theme.of(context).accentColor, fontSize: 24);
     if (!inSearchMode) {
       menu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!;
     }
@@ -59,7 +59,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
           ],
         ),
         if (!inSearchMode)
-          buildHeader(Strings.get('edit-menu-categories-header')!, headerColor, 24),
+          buildHeader(Strings.get('edit-menu-categories-header')!, headerStyle),
         if (!inSearchMode)
           SliverPadding(
             padding: EdgeInsets.all(10),
@@ -110,7 +110,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
 
   List<Widget> buildFoodsGridView(BuildContext context, FoodCategory category) {
     return <Widget>[
-      buildHeader(Strings.get(category.toString())!, headerColor, 24.0),
+      buildHeader(Strings.get(category.toString())!, headerStyle),
       SliverPadding(
         padding: EdgeInsets.all(10),
         sliver: SliverGrid.count(

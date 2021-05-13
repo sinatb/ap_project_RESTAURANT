@@ -19,7 +19,7 @@ class _OrdersPanelState extends State<OrdersPanel>
     _activeOrders = (Head.of(context).server.account as OwnerAccount).activeOrders;
     _previousOrders = (Head.of(context).server.account as OwnerAccount).previousOrders;
 
-    var headerColor = Theme.of(context).accentColor;
+    TextStyle headerStyle = TextStyle(color: Theme.of(context).accentColor, fontSize: 24);
 
     return RefreshIndicator(
       child: CustomScrollView(
@@ -34,11 +34,11 @@ class _OrdersPanelState extends State<OrdersPanel>
             ],
           ),
           if (_activeOrders.isNotEmpty)
-            buildHeader(Strings.get('order-page-active-orders')!, headerColor, 24),
+            buildHeader(Strings.get('order-page-active-orders')!, headerStyle),
           if (_activeOrders.isNotEmpty)
             buildListOfOrders(context, _activeOrders),
           if (_previousOrders.isNotEmpty)
-            buildHeader(Strings.get('order-page-inactive-orders')!, headerColor, 24),
+            buildHeader(Strings.get('order-page-inactive-orders')!, headerStyle),
           if (_previousOrders.isNotEmpty)
             buildListOfOrders(context, _previousOrders),
           if (_activeOrders.isEmpty && _previousOrders.isEmpty)
