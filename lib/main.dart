@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'main_panel.dart';
 import 'package:models/models.dart';
 void main() {
-  Server s = Server(DataBase.empty());
-  FakeData f = FakeData(s.dataBase, s);
+  Server s = Server();
+  FakeData f = FakeData(s);
   f.fill();
   s.login('09123123123', 'owner123');
   runApp(Head(child: MyApp(), server: s));
