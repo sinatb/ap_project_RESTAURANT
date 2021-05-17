@@ -52,6 +52,9 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                     Navigator.of(context).pop();
                     widget.rebuildMenu();
                   });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      showBar(Strings.get('delete-food-successful')!, Duration(milliseconds: 2000))
+                  );
                 }),
                 buildModelButton(Strings.get('edit-bottom-sheet-save')!, CommonColors.green as Color, () {
                   if (_formKey.currentState!.validate() == false) return;
@@ -59,6 +62,9 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                   setState(() {
                     Navigator.of(context).pop(true);
                   });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      showBar(Strings.get('edit-food-edit-successful')!, Duration(milliseconds: 2000))
+                  );
                 })
               ],
             )

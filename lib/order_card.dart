@@ -72,7 +72,14 @@ class _OrderCardState extends State<OrderCard> {
                 Text(Strings.get('order-bottom-sheet-is-ready')!),
                 Switch(
                   value: order.isDelivered,
-                  onChanged: (newValue) => setState(() {order.isDelivered = newValue;}),
+                  onChanged: (newValue) {
+                    setState(() {
+                      order.isDelivered = newValue;
+                    }
+                    );
+                    if (newValue)
+                      ScaffoldMessenger.of(context).showSnackBar(showBar(Strings.get('food-delivered-successful')!, Duration(milliseconds: 2000)));
+                  }
                 )
               ],
             ),

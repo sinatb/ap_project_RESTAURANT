@@ -129,6 +129,7 @@ class _MapPageState extends State<MapPage> {
         'lng' : point.longitude,
         'radius' : radius,
       });
+      ScaffoldMessenger.of(context).showSnackBar(showBar(Strings.get('location-selected')!, Duration(milliseconds: 2000)));
     } else {
       placeMarker();
     }
