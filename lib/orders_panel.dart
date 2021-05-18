@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'order_card.dart';
-import 'reused_ui.dart';
 import 'settings.dart';
 
 class OrdersPanel extends StatefulWidget {

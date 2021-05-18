@@ -51,7 +51,7 @@ class _MapPageState extends State<MapPage> {
                 FlutterMap(
                   mapController: _mapController,
                   options: MapOptions(
-                    center: address == null ? LatLng(35.8, 51.4) : LatLng(address.latitude, address.longitude),
+                    center: (address.latitude == 0 && address.longitude == 0) ? LatLng(35.8, 51.4) : LatLng(address.latitude, address.longitude),
                     zoom: 9,
                     interactiveFlags: flags,
                   ),
