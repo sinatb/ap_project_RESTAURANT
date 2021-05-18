@@ -37,7 +37,7 @@ class SettingsPanel extends StatelessWidget {
             Text(Strings.get('restaurant-address-label')!, style: smallHeading,),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: verticalPadding),
-              child: Text(restaurant.address?.text ?? '-', style: regular,),
+              child: Text(restaurant.address.text, style: regular,),
             ),
             Text(Strings.get('owner-phone-number-label')!, style: smallHeading,),
             Padding(
@@ -66,9 +66,8 @@ class SettingsPanel extends StatelessWidget {
                     child: buildModelButton(Strings.get('map-button')!, Theme.of(context).buttonColor, () async {
                       var coordinates = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => MapPage()));
                       if (coordinates == null) return;
-                      restaurant.address ??= Address();
-                      restaurant.address!.latitude = coordinates['lat'];
-                      restaurant.address!.longitude = coordinates['lng'];
+                      restaurant.address.latitude = coordinates['lat'];
+                      restaurant.address.longitude = coordinates['lng'];
                       restaurant.areaOfDispatch = coordinates['radius'];
                     }),
                   ),
