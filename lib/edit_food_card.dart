@@ -22,9 +22,7 @@ class _EditFoodCardState extends State<EditFoodCard> {
         children: [
           Flexible(
             child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
+              child : widget.food.image,
             ),
             flex: 5,
             fit: FlexFit.tight,

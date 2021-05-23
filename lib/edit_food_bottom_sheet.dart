@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'reused_ui.dart';
 
 class EditBottomSheet extends StatefulWidget {
@@ -16,7 +18,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
 
   var _formKey = GlobalKey<FormState>();
   double _padding = 20;
-
+  final picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -37,6 +39,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
               activeColor: CommonColors.green,
               inactiveTrackColor: CommonColors.red,
             ),
+            buildModelButton(Strings.get('edit-add-image')!, CommonColors.green!, (){getMyImage();}),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -73,7 +76,17 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
       ),
     );
   }
-
+  Future getMyImage() async{
+    final pickedImage = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedImage!=null)
+      {
+        File image = File(pickedImage.path);
+        widget.food.image = Image.file(image);
+        widget.rebuildMenu();
+      }
+    });
+  }
   buildRemoveDialog() {
     return AlertDialog(
       title: Text(Strings.get('food-remove-dialog-title')!),
