@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'reused_ui.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AddFood extends StatefulWidget {
 
@@ -15,7 +17,8 @@ class _AddFoodState extends State<AddFood> {
   int _price = 0;
   String? _desc;
   FoodCategory _category = FoodCategory.values[0];
-
+  ImagePicker picker = ImagePicker();
+  var foodImage;
   double _padding = 10;
 
   @override
@@ -29,6 +32,7 @@ class _AddFoodState extends State<AddFood> {
             buildDescriptionField(_padding, (desc) => _desc = desc),
             buildPriceField(_padding, (price) => _price = int.parse(price!)),
             buildCategoryDropdown(_padding),
+            buildModelButton(Strings.get('edit-add-image')!, CommonColors.green!, (){getFoodImage();}),
             Center(
               child: buildModelButton('Create', CommonColors.green!, createFood),
             ),
@@ -60,12 +64,19 @@ class _AddFoodState extends State<AddFood> {
     }
     _formKey.currentState!.save();
     var server = Head.of(context).server;
-    Food food = Food(category: _category, name: _name, price: Price(_price), server: server, description: _desc);
+    Food food = Food(category: _category, name: _name, price: Price(_price), server: server,image: foodImage, description: _desc);
     food.serialize(server.serializer);
     Navigator.of(context).pop(food);
     ScaffoldMessenger.of(context).showSnackBar(
         showBar(Strings.get('add-food-successful')!, Duration(milliseconds: 2000))
     );
   }
-
+  Future getFoodImage() async{
+    final pickedImage = await picker.getImage(source: ImageSource.gallery);
+    if (pickedImage!=null)
+    {
+      File image = File(pickedImage.path);
+      foodImage = Image.file(image);
+    }
+  }
 }

@@ -19,6 +19,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
   var _formKey = GlobalKey<FormState>();
   double _padding = 20;
   final picker = ImagePicker();
+  var foodImage;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -39,7 +40,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
               activeColor: CommonColors.green,
               inactiveTrackColor: CommonColors.red,
             ),
-            buildModelButton(Strings.get('edit-add-image')!, CommonColors.green!, (){getMyImage();}),
+            buildModelButton(Strings.get('edit-add-image')!, CommonColors.green!, (){getFoodImage();}),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -61,6 +62,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                 }),
                 buildModelButton(Strings.get('edit-bottom-sheet-save')!, CommonColors.green as Color, () {
                   if (_formKey.currentState!.validate() == false) return;
+                  widget.food.image = foodImage;
                   _formKey.currentState!.save();
                   setState(() {
                     Navigator.of(context).pop(true);
@@ -76,16 +78,13 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
       ),
     );
   }
-  Future getMyImage() async{
+  Future getFoodImage() async{
     final pickedImage = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedImage!=null)
-      {
-        File image = File(pickedImage.path);
-        widget.food.image = Image.file(image);
-        widget.rebuildMenu();
-      }
-    });
+    if (pickedImage!=null)
+    {
+      File image = File(pickedImage.path);
+      foodImage = Image.file(image);
+    }
   }
   buildRemoveDialog() {
     return AlertDialog(
