@@ -29,7 +29,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.get('settings-appbar-title')!),
+        title: Text(Strings.get('settings-appbar-title')! , style: Theme.of(context).textTheme.headline1,),
         elevation: 1.0,
       ),
       body: SingleChildScrollView(
