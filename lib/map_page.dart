@@ -26,7 +26,11 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
 
-    var address = (Head.of(context).server.account as OwnerAccount).restaurant.address;
+    var account = Head.of(context).server.account;
+    var address;
+    if (account != null) {
+      address = (account as OwnerAccount).restaurant.address;
+    }
 
     var circleMarkers = <CircleMarker>[
       if (pointIsPinned)
@@ -51,7 +55,7 @@ class _MapPageState extends State<MapPage> {
                 FlutterMap(
                   mapController: _mapController,
                   options: MapOptions(
-                    center: (address.latitude == 0 && address.longitude == 0) ? LatLng(35.8, 51.4) : LatLng(address.latitude, address.longitude),
+                    center: (address == null || (address.latitude == 0 && address.longitude == 0)) ? LatLng(35.8, 51.4) : LatLng(address.latitude, address.longitude),
                     zoom: 9,
                     interactiveFlags: flags,
                   ),

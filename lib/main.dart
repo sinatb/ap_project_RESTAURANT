@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'main_panel.dart';
 import 'package:models/models.dart';
+import 'sign_up_panel.dart';
 
 void main() {
   Server s = Server();
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           headline2: TextStyle(color: CommonColors.themeColorBlack , fontSize: 20)
         ),
       ),
-      home: LoginPanel(isForUser: false, nextPageBuilder: (context) => MainPanel(),),
+      home: SignUpPanel(),
     );
   }
 }
