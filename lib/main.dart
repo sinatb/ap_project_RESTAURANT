@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant/comments_panel.dart';
 import 'main_panel.dart';
 import 'package:models/models.dart';
 void main() {
@@ -15,7 +16,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: CommonColors.themeColorBlue ,
+        scaffoldBackgroundColor: CommonColors.themeColorPlatinum,
+        errorColor: CommonColors.red,
+        buttonColor: CommonColors.green,
+        iconTheme: IconThemeData(
+          color: CommonColors.themeColorRed,
+        ),
+        textTheme: TextTheme(
+          headline1: TextStyle(color: CommonColors.themeColorRed ,fontWeight: FontWeight.bold, fontSize: 22),
+          headline2: TextStyle(color: CommonColors.themeColorBlack , fontSize: 20)
+        ),
       ),
       home: MainPanel(),
     );

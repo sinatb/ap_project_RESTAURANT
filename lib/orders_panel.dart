@@ -18,7 +18,7 @@ class _OrdersPanelState extends State<OrdersPanel>
     _activeOrders = (Head.of(context).server.account as OwnerAccount).activeOrders;
     _previousOrders = (Head.of(context).server.account as OwnerAccount).previousOrders;
 
-    TextStyle headerStyle = TextStyle(color: Theme.of(context).accentColor, fontSize: 24);
+    TextStyle headerStyle = Theme.of(context).textTheme.headline1!;
 
     return RefreshIndicator(
       child: CustomScrollView(
@@ -26,11 +26,7 @@ class _OrdersPanelState extends State<OrdersPanel>
           SliverAppBar(
             floating: true,
             centerTitle: true,
-            title: Text(Strings.get('orders-menu-header')!,),
-            actions: [
-              IconButton(icon: Icon(Icons.settings_rounded),
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPanel())))
-            ],
+            title: Text(Strings.get('orders-menu-header')!,style: headerStyle,),
           ),
           if (_activeOrders.isNotEmpty)
             buildHeader(Strings.get('order-page-active-orders')!, headerStyle),

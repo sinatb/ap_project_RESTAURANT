@@ -18,7 +18,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
 
   @override
   Widget build(BuildContext context) {
-    headerStyle = TextStyle(color: Theme.of(context).accentColor, fontSize: 24);
+    headerStyle =Theme.of(context).textTheme.headline1!;
     if (!inSearchMode) {
       menu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!;
     }
@@ -27,7 +27,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
         SliverAppBar(
           floating: true,
           centerTitle: true,
-          leading: inSearchMode ? null : IconButton(icon: Icon(Icons.add), tooltip: Strings.get('add-food-tooltip'),
+          leading: inSearchMode ? null : IconButton(icon: Icon(Icons.add),color:Theme.of(context).iconTheme.color , tooltip: Strings.get('add-food-tooltip'),
             onPressed:() async {
               var newFood = await showModalBottomSheet(context: context,
                   builder:(context)=>AddFood(),
@@ -39,9 +39,9 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
               }
             },
           ),
-          title: Text(Strings.get('bottom-nav-label-edit')!,),
+          title: Text(Strings.get('bottom-nav-label-edit')!,style: Theme.of(context).textTheme.headline1,),
           actions: [
-            IconButton(icon: Icon(inSearchMode ? Icons.close : Icons.search), tooltip: Strings.get('search-menu-tooltip'), onPressed: () async {
+            IconButton(icon: Icon(inSearchMode ? Icons.close : Icons.search),color:Theme.of(context).iconTheme.color , tooltip: Strings.get('search-menu-tooltip'), onPressed: () async {
               if (inSearchMode) {
                 setState(() {
                   inSearchMode = false;
@@ -95,7 +95,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
               color: Theme.of(context).cardColor,
               child: Center(
                 child: Text(Strings.get(category.toString())!,
-                  style: TextStyle(color: CommonColors.black, fontSize: 20),
+                  style: Theme.of(context).textTheme.headline2,
                 ),
               ),
             ),

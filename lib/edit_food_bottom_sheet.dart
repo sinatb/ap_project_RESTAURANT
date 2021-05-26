@@ -44,7 +44,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildModelButton(Strings.get('edit-bottom-sheet-remove')!, CommonColors.red as Color, () async {
+                buildModelButton(Strings.get('edit-bottom-sheet-remove')!, Theme.of(context).errorColor, () async {
                   var response = await showDialog(
                     context: context,
                     builder: (context) => buildRemoveDialog(),
@@ -60,7 +60,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                       showBar(Strings.get('delete-food-successful')!, Duration(milliseconds: 2000))
                   );
                 }),
-                buildModelButton(Strings.get('edit-bottom-sheet-save')!, CommonColors.green as Color, () {
+                buildModelButton(Strings.get('edit-bottom-sheet-save')!, Theme.of(context).buttonColor, () {
                   if (_formKey.currentState!.validate() == false) return;
                   widget.food.image = foodImage;
                   _formKey.currentState!.save();

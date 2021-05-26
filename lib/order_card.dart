@@ -79,7 +79,9 @@ class _OrderCardState extends State<OrderCard> {
                     );
                     if (newValue)
                       ScaffoldMessenger.of(context).showSnackBar(showBar(Strings.get('food-delivered-successful')!, Duration(milliseconds: 2000)));
-                  }
+                  },
+                  activeColor: CommonColors.green,
+                  inactiveTrackColor: CommonColors.red,
                 )
               ],
             ),

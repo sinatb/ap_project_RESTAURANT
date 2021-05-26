@@ -24,10 +24,10 @@ class _StatsPanelState extends State<StatsPanel> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          title: Text(Strings.get('stats-title')!),
+          title: Text(Strings.get('stats-title')! , style: Theme.of(context).textTheme.headline1,),
           centerTitle: true,
           actions: [
-            IconButton(icon: Icon(Icons.settings_rounded),
+            IconButton(icon: Icon(Icons.settings_rounded),color: Theme.of(context).iconTheme.color,
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPanel())))
           ],
         ),
