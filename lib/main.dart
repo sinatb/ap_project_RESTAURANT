@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant/comments_panel.dart';
 import 'main_panel.dart';
 import 'package:models/models.dart';
+
 void main() {
   Server s = Server();
   FakeData f = FakeData(s);
   f.fill();
-  s.login('09123123123', 'owner123');
   runApp(Head(child: MyApp(), server: s));
 }
 
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
           headline2: TextStyle(color: CommonColors.themeColorBlack , fontSize: 20)
         ),
       ),
-      home: MainPanel(),
+      home: LoginPanel(isForUser: false, nextPageBuilder: (context) => MainPanel(),),
     );
   }
 }
