@@ -71,7 +71,7 @@ class _StatsPanelState extends State<StatsPanel> {
     return Wrap(
       spacing: 10,
       children: [
-        Icon(Icons.today, color: Theme.of(context).primaryColorDark,),
+        Icon(Icons.today, color: Theme.of(context).accentColor,),
         Text('${Strings.get('today')}: ${Strings.formatDay(now)}',
           style: TextStyle(fontSize: 18),
         ),
