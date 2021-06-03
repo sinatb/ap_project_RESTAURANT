@@ -48,50 +48,48 @@ class _SignUpPanelState extends State<SignUpPanel> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Image.asset('assets/login_background.jpg', package: 'models', scale: 1.5,),
-            SingleChildScrollView(
-              child: Container(
-                width: size.width * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).cardColor,
-                ),
-                padding: EdgeInsets.all(15),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/login_background.jpg', package: 'models'), fit: BoxFit.cover),
+        ),
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          child: Container(
+            width: size.width * 0.9,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Theme.of(context).cardColor,
+            ),
+            padding: EdgeInsets.all(15),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(Strings.get('sign-up-header')!, style: Theme.of(context).textTheme.headline1,),
+                  const SizedBox(height: 10,),
+                  if (_duplicateNumber)
+                    buildDuplicateNumberError(),
+                  buildLoginPhoneNumberField(server, (value) => _phoneNumber = value),
+                  PasswordField(server, (value) => _password = value),
+                  buildRestaurantNameField(),
+                  buildAddressTextField(),
+                  buildCoordinatesField(),
+                  const SizedBox(height: 10,),
+                  Text(Strings.get('settings-categories')!, style: Theme.of(context).textTheme.headline2,),
+                  buildCategories(),
+                  buildModelButton(Strings.get('sign-up-button')!, Theme.of(context).primaryColor, signUpPressed),
+                  Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(Strings.get('sign-up-header')!, style: Theme.of(context).textTheme.headline1,),
-                      const SizedBox(height: 10,),
-                      if (_duplicateNumber)
-                        buildDuplicateNumberError(),
-                      buildLoginPhoneNumberField(server, (value) => _phoneNumber = value),
-                      PasswordField(server, (value) => _password = value),
-                      buildRestaurantNameField(),
-                      buildAddressTextField(),
-                      buildCoordinatesField(),
-                      const SizedBox(height: 10,),
-                      Text(Strings.get('settings-categories')!, style: Theme.of(context).textTheme.headline2,),
-                      buildCategories(),
-                      buildModelButton(Strings.get('sign-up-button')!, Theme.of(context).primaryColor, signUpPressed),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(Strings.get('login-prompt')!),
-                          TextButton(child: Text(Strings.get('login-button')!), onPressed: loginPressed,)
-                        ],
-                      )
+                      Text(Strings.get('login-prompt')!),
+                      TextButton(child: Text(Strings.get('login-button')!), onPressed: loginPressed,)
                     ],
-                  ),
-                ),
+                  )
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
