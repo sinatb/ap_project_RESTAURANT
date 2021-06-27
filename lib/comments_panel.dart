@@ -21,7 +21,8 @@ class _CommentsPanelState extends State<CommentsPanel> {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          var comment = Head.of(context).server.getObjectByID(commentIDs[index]) as Comment;
+          var comment;
+          getComment(comment, commentIDs[index]);
           return Container(
             margin: EdgeInsets.all(10),
             child: CommentTile(comment: comment, isForOwner: true),
@@ -35,5 +36,8 @@ class _CommentsPanelState extends State<CommentsPanel> {
         itemCount: commentIDs.length,
       ),
     );
+  }
+  Future getComment(var comment , String commentID) async{
+    comment = await Head.of(context).server.getObjectByID(commentID);
   }
 }

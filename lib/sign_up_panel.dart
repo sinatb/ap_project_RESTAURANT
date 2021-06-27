@@ -217,7 +217,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
     );
   }
 
-  void signUpPressed() {
+  void signUpPressed() async {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
     if (!server.isPhoneNumberUnique(_phoneNumber!)) {
@@ -227,7 +227,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
       return;
     }
     var menu = FoodMenu(server);
-    menu.serialize(server.serializer);
+    menu.id = await Head.of(context).server.serialize("foodMenu");
     var restaurant = Restaurant(
       name: _name!,
       menuID: menu.id,
