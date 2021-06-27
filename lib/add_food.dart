@@ -65,15 +65,11 @@ class _AddFoodState extends State<AddFood> {
     _formKey.currentState!.save();
     var server = Head.of(context).server;
     Food food = Food(category: _category, name: _name, price: Price(_price), server: server,image: foodImage, description: _desc);
-    await setFoodID(food);
+    food.id = await server.serialize("food");
     Navigator.of(context).pop(food);
     ScaffoldMessenger.of(context).showSnackBar(
         showBar(Strings.get('add-food-successful')!, Duration(milliseconds: 2000))
     );
-  }
-  Future<void> setFoodID (Food f) async {
-    var server = Head.of(context).server;
-    f.id = await server.serialize("food");
   }
   Future getFoodImage() async{
     final pickedImage = await picker.getImage(source: ImageSource.gallery);
