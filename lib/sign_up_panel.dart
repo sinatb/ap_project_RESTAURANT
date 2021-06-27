@@ -220,7 +220,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
   void signUpPressed() async {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
-    if (!server.isPhoneNumberUnique(_phoneNumber!)) {
+    if (!await server.isPhoneNumberUnique(_phoneNumber!)) {
       setState(() {
         _duplicateNumber = true;
       });
@@ -236,7 +236,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
       areaOfDispatch: _radius!,
       foodCategories: _categories,
     );
-    server.signUpOwner(_phoneNumber!, _password!, restaurant, menu);
+    await server.signUpOwner(_phoneNumber!, _password!, restaurant, menu);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPanel()));
   }
 

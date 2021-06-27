@@ -9,23 +9,36 @@ class CommentsPanel extends StatefulWidget {
 
 class _CommentsPanelState extends State<CommentsPanel> {
 
+  bool loaded = false;
+  var commentIDs = <String>[];
+  var comments = <Comment>[];
+
   @override
   Widget build(BuildContext context) {
-
-    var commentIDs = (Head.of(context).server.account as OwnerAccount).restaurant.commentIDs;
+    var server = Head.of(context).server;
+    if (!loaded) {
+      server.getObjectByID<Restaurant>((server.account as OwnerAccount).restaurant.id!).then((value) async {
+        (server.account as OwnerAccount).restaurant = value as Restaurant;
+        commentIDs = (server.account as OwnerAccount).restaurant.commentIDs;
+        for (var id in commentIDs) {
+          comments.add(await server.getObjectByID<Comment>(id) as Comment);
+        }
+        setState(() {
+          loaded = true;
+        });
+      });
+    }
     final shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.get('comments-panel-title')!),
       ),
-      body: ListView.builder(
+      body: loaded ? ListView.builder(
         itemBuilder: (context, index) {
-          var comment;
-          getComment(comment, commentIDs[index]);
           return Container(
             margin: EdgeInsets.all(10),
-            child: CommentTile(comment: comment, isForOwner: true),
+            child: CommentTile(comment: comments[index], isForOwner: true),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Theme.of(context).cardColor,
@@ -33,11 +46,8 @@ class _CommentsPanelState extends State<CommentsPanel> {
             ),
           );
         },
-        itemCount: commentIDs.length,
-      ),
+        itemCount: comments.length,
+      ) : Center(child: Text('loading...')),
     );
-  }
-  Future getComment(var comment , String commentID) async{
-    comment = await Head.of(context).server.getObjectByID(commentID);
   }
 }
