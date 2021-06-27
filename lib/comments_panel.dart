@@ -18,7 +18,9 @@ class _CommentsPanelState extends State<CommentsPanel> {
     var server = Head.of(context).server;
     if (!loaded) {
       server.getObjectByID<Restaurant>((server.account as OwnerAccount).restaurant.id!).then((value) async {
+        var menu = (server.account as OwnerAccount).restaurant.menu;
         (server.account as OwnerAccount).restaurant = value as Restaurant;
+        (server.account as OwnerAccount).restaurant.menu = menu;
         commentIDs = (server.account as OwnerAccount).restaurant.commentIDs;
         for (var id in commentIDs) {
           comments.add(await server.getObjectByID<Comment>(id) as Comment);

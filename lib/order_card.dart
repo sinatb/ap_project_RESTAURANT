@@ -73,6 +73,7 @@ class _OrderCardState extends State<OrderCard> {
                 Switch(
                   value: order.isDelivered,
                   onChanged: (newValue) {
+                    if (newValue == false) return;
                     setState(() {
                       order.isDelivered = newValue;
                     }

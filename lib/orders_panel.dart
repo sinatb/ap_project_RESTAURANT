@@ -60,16 +60,9 @@ class _OrdersPanelState extends State<OrdersPanel>
   }
 
 
-  Future<void> refreshList() {
-    _activeOrders.where((element) => element.isDelivered).toList().forEach((element) {
-      _previousOrders.add(element);
-      _activeOrders.remove(element);
-    });
-    _previousOrders.where((element) => !element.isDelivered).toList().forEach((element) {
-      _activeOrders.add(element);
-      _previousOrders.remove(element);
-    });
-    return Future.delayed(Duration(milliseconds: 600), () => setState((){}));
+  Future<void> refreshList() async {
+    await Head.of(context).server.refreshActiveOrders();
+    return Future.delayed(Duration(milliseconds: 300), () => setState((){}));
   }
 }
 

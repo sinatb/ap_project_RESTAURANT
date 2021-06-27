@@ -134,6 +134,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
                     } else {
                       restaurant.foodCategories.remove(category);
                     }
+                    Head.of(context).server.editRestaurant();
                   });
                 },
               );
@@ -193,7 +194,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 setState(() {
-
+                  Head.of(context).server.editRestaurant();
                 });
               }
             }),
@@ -212,7 +213,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
     restaurant.address.longitude = coordinates['lng'];
     restaurant.areaOfDispatch = coordinates['radius'];
     setState(() {
-
+      Head.of(context).server.editRestaurant();
     });
   }
 
