@@ -241,6 +241,10 @@ class _SignUpPanelState extends State<SignUpPanel> {
   }
 
   void loginPressed() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPanel(isForUser: false, nextPageBuilder: (context) => MainPanel())));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPanel(
+      isForUser: false,
+      nextPageBuilder: (context) => MainPanel(),
+      previousPageBuilder: (context) => SignUpPanel(),
+    )));
   }
 }
