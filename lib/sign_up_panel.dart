@@ -92,6 +92,10 @@ class _SignUpPanelState extends State<SignUpPanel> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showDialog(context: context, builder: buildNetworkSettingsDialog),
+        child: Icon(Icons.settings_input_antenna_rounded),
+      ),
     );
   }
 
