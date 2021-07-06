@@ -63,9 +63,9 @@ class _AddFoodState extends State<AddFood> {
       return;
     }
     _formKey.currentState!.save();
-    var server = Head.of(context).server;
-    Food food = Food(category: _category, name: _name, price: Price(_price), server: server,image: foodImage, description: _desc);
-    food.id = await server.serialize("food");
+    var server = Head.of(context).ownerServer;
+    Food food = Food(category: _category, name: _name, price: Price(_price), server: server, image: foodImage, description: _desc);
+    food.id = await server.serialize(food.runtimeType);
     Navigator.of(context).pop(food);
     ScaffoldMessenger.of(context).showSnackBar(
         showBar(Strings.get('add-food-successful')!, Duration(milliseconds: 2000))

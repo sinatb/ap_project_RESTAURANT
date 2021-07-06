@@ -24,7 +24,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
   @override
   Widget build(BuildContext context) {
 
-    var owner = Head.of(context).server.account! as OwnerAccount;
+    var owner = Head.of(context).ownerServer.account;
     restaurant = owner.restaurant;
 
     return Scaffold(
@@ -134,7 +134,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
                     } else {
                       restaurant.foodCategories.remove(category);
                     }
-                    Head.of(context).server.editRestaurant();
+                    Head.of(context).ownerServer.editRestaurant();
                   });
                 },
               );
@@ -194,7 +194,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 setState(() {
-                  Head.of(context).server.editRestaurant();
+                  Head.of(context).ownerServer.editRestaurant();
                 });
               }
             }),
@@ -213,7 +213,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
     restaurant.address.longitude = coordinates['lng'];
     restaurant.areaOfDispatch = coordinates['radius'];
     setState(() {
-      Head.of(context).server.editRestaurant();
+      Head.of(context).ownerServer.editRestaurant();
     });
   }
 

@@ -81,7 +81,7 @@ class _StatsPanelState extends State<StatsPanel> {
 
   Widget buildRecordCard() {
     var countPrice =
-    (Head.of(context).server.account as OwnerAccount)
+    Head.of(context).ownerServer.account
         .calculateCountPrice(selectedChip == 0 ? null : now, true);
     int count = countPrice[0];
     Price total = Price(countPrice[1]);

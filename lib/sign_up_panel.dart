@@ -12,7 +12,7 @@ class SignUpPanel extends StatefulWidget {
 
 class _SignUpPanelState extends State<SignUpPanel> {
 
-  late Server server;
+  late OwnerServer server;
   String? _phoneNumber;
   String? _password;
   String? _name;
@@ -44,7 +44,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
   @override
   Widget build(BuildContext context) {
 
-    server = Head.of(context).server;
+    server = Head.of(context).ownerServer;
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -231,7 +231,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
       return;
     }
     var menu = FoodMenu(server);
-    menu.id = await Head.of(context).server.serialize("foodMenu");
+    menu.id = await server.serialize(menu.runtimeType);
     var restaurant = Restaurant(
       name: _name!,
       menuID: menu.id,
@@ -240,7 +240,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
       areaOfDispatch: _radius!,
       foodCategories: _categories,
     );
-    await server.signUpOwner(_phoneNumber!, _password!, restaurant, menu);
+    await server.signUp(_phoneNumber!, _password!, restaurant, menu);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPanel()));
   }
 

@@ -26,10 +26,14 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
 
-    var account = Head.of(context).server.account;
-    var address;
+    OwnerAccount? account;
+    try {
+      account = Head.of(context).ownerServer.account;
+    } on Error {}
+
+    Address? address;
     if (account != null) {
-      address = (account as OwnerAccount).restaurant.address;
+      address = account.restaurant.address;
     }
 
     var circleMarkers = <CircleMarker>[

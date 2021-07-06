@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 import 'order_card.dart';
-import 'settings.dart';
 
 class OrdersPanel extends StatefulWidget {
   @override
@@ -15,8 +14,9 @@ class _OrdersPanelState extends State<OrdersPanel>
   @override
   Widget build(BuildContext context) {
 
-    _activeOrders = (Head.of(context).server.account as OwnerAccount).activeOrders;
-    _previousOrders = (Head.of(context).server.account as OwnerAccount).previousOrders;
+    var account = Head.of(context).ownerServer.account;
+    _activeOrders = account.activeOrders;
+    _previousOrders = account.previousOrders;
 
     TextStyle headerStyle = Theme.of(context).textTheme.headline1!;
 
@@ -61,7 +61,7 @@ class _OrdersPanelState extends State<OrdersPanel>
 
 
   Future<void> refreshList() async {
-    await Head.of(context).server.refreshActiveOrders();
+    await Head.of(context).ownerServer.refreshActiveOrders();
     return Future.delayed(Duration(milliseconds: 300), () => setState((){}));
   }
 }

@@ -53,7 +53,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                   if (response == false) return;
                   setState(() {
                     // might be problem
-                    (Head.of(context).server.account as OwnerAccount).restaurant.menu!.removeFood(widget.food);
+                    Head.of(context).ownerServer.restaurant.menu!.removeFood(widget.food);
                     Navigator.of(context).pop();
                     widget.rebuildMenu();
                   });

@@ -20,7 +20,7 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
   Widget build(BuildContext context) {
     headerStyle =Theme.of(context).textTheme.headline1!;
     if (!inSearchMode) {
-      menu = (Head.of(context).server.account as OwnerAccount).restaurant.menu!;
+      menu = Head.of(context).ownerServer.restaurant.menu!;
     }
     return CustomScrollView(
       slivers: [

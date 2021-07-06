@@ -15,13 +15,13 @@ class _CommentsPanelState extends State<CommentsPanel> {
 
   @override
   Widget build(BuildContext context) {
-    var server = Head.of(context).server;
+    var server = Head.of(context).ownerServer;
     if (!loaded) {
-      server.getObjectByID<Restaurant>((server.account as OwnerAccount).restaurant.id!).then((value) async {
-        var menu = (server.account as OwnerAccount).restaurant.menu;
-        (server.account as OwnerAccount).restaurant = value as Restaurant;
-        (server.account as OwnerAccount).restaurant.menu = menu;
-        commentIDs = (server.account as OwnerAccount).restaurant.commentIDs;
+      server.getObjectByID<Restaurant>(server.restaurant.id!).then((value) async {
+        var menu = server.restaurant.menu;
+        server.account.restaurant = value as Restaurant;
+        server.restaurant.menu = menu;
+        commentIDs = server.restaurant.commentIDs;
         for (var id in commentIDs) {
           comments.add(await server.getObjectByID<Comment>(id) as Comment);
         }
