@@ -20,8 +20,14 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
   double _padding = 20;
   final picker = ImagePicker();
   var foodImage;
+  bool? isAvailable;
   @override
   Widget build(BuildContext context) {
+
+    if (isAvailable == null) {
+      isAvailable = widget.food.isAvailable;
+    }
+
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
@@ -31,10 +37,10 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
             buildDescriptionField(_padding, (desc) => widget.food.description = desc ?? '', widget.food.description),
             buildPriceField(_padding, (price) => widget.food.price = Price(int.parse(price!)), widget.food.price.toString()),
             Switch(
-              value: widget.food.isAvailable,
-              onChanged: (value){
+              value: isAvailable ?? widget.food.isAvailable,
+              onChanged: (value) {
                 setState(() {
-                  widget.food.isAvailable = value;
+                  isAvailable = value;
                 });
               },
               activeColor: CommonColors.green,
@@ -61,10 +67,14 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                       showBar(Strings.get('delete-food-successful')!, Duration(milliseconds: 2000))
                   );
                 }),
-                buildModelButton(Strings.get('edit-bottom-sheet-save')!, Theme.of(context).buttonColor, () {
+                buildModelButton(Strings.get('edit-bottom-sheet-save')!, Theme.of(context).buttonColor, () async {
                   if (_formKey.currentState!.validate() == false) return;
-                  widget.food.image = foodImage;
+                  if (foodImage != null) {
+                    widget.food.image = foodImage;
+                  }
                   _formKey.currentState!.save();
+                  widget.food.isAvailable = isAvailable!;
+                  await Head.of(context).ownerServer.edit(widget.food);
                   setState(() {
                     Navigator.of(context).pop(true);
                   });
