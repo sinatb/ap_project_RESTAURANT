@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:models/models.dart';
+import 'sign_up_panel.dart';
 import 'comments_panel.dart';
 import 'map_page.dart';
 
@@ -41,6 +42,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
             buildCategoriesTile(),
             buildAddressTile(),
             buildCommentsTile(),
+            buildLogoutTile(),
           ],
         ),
       ),
@@ -215,6 +217,18 @@ class _SettingsPanelState extends State<SettingsPanel> {
     setState(() {
       Head.of(context).ownerServer.editRestaurant();
     });
+  }
+
+  Widget buildLogoutTile() {
+    final color = Colors.red[700];
+    return ExpansionTile(
+      title: Text(Strings.get('logout')!, style: TextStyle(color: color),),
+      leading: Icon(Icons.logout, color: color,),
+      onExpansionChanged: (isOpen) async {
+        await Head.of(context).server.logout();
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SignUpPanel()), (route) => false);
+      },
+    );
   }
 
 }
