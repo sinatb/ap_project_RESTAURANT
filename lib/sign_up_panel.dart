@@ -230,17 +230,13 @@ class _SignUpPanelState extends State<SignUpPanel> {
       });
       return;
     }
-    var menu = FoodMenu(server);
-    menu.id = await server.serialize(menu.runtimeType);
-    var restaurant = Restaurant(
-      name: _name!,
-      menuID: menu.id,
-      score: 0.0,
-      address: Address(text: _addressText!, latitude: _latitude!, longitude: _longitude!),
-      areaOfDispatch: _radius!,
-      foodCategories: _categories,
-    );
-    await server.signUp(_phoneNumber!, _password!, restaurant, menu);
+    await server.signUp(
+        phoneNumber: _phoneNumber!,
+        password: _password!,
+        name: _name!,
+        categories: _categories,
+        address: Address(text: _addressText!, latitude: _latitude!, longitude: _longitude!),
+        areaOfDispatch: _radius!);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPanel()));
   }
 
