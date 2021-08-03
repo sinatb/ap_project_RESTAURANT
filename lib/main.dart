@@ -3,9 +3,7 @@ import 'package:models/models.dart';
 import 'sign_up_panel.dart';
 
 void main() {
-  var s = OwnerServer();
-  s.setSocket("192.168.1.1", 8081);
-  runApp(Head(child: MyApp(), server: s));
+  runApp(Head(child: MyApp(), server: OwnerServer()));
 }
 
 class MyApp extends StatelessWidget {
