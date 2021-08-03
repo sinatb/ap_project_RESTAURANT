@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-import 'package:restaurant/add_food.dart';
+import 'add_food.dart';
 import 'edit_food_card.dart';
 import 'menu_search_bottom_sheet.dart';
 
@@ -33,9 +33,8 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
                   builder:(context)=>AddFood(),
               );
               if (newFood != null) {
-                setState(() {
-                  menu.addFood(newFood);
-                });
+                await menu.addFood(newFood);
+                setState(() {});
               }
             },
           ),
