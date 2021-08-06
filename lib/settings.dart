@@ -134,7 +134,9 @@ class _SettingsPanelState extends State<SettingsPanel> {
                     if (isSelected) {
                       restaurant.foodCategories.add(category);
                     } else {
-                      restaurant.foodCategories.remove(category);
+                      if (restaurant.foodCategories.length > 1) {
+                        restaurant.foodCategories.remove(category);
+                      }
                     }
                     Head.of(context).ownerServer.editRestaurant();
                   });
@@ -191,8 +193,8 @@ class _SettingsPanelState extends State<SettingsPanel> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            buildModelButton(Strings.get('edit-address')!, Theme.of(context).primaryColor, () => openMapPage()),
-            buildModelButton(Strings.get('save-address')!, Theme.of(context).buttonColor, () {
+            buildModelButton(Strings.get('edit-address')!, Theme.of(context).buttonColor, () => openMapPage()),
+            buildModelButton(Strings.get('save-address')!, Theme.of(context).primaryColor, () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 setState(() {

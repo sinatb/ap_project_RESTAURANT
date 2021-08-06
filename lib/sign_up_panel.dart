@@ -20,7 +20,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
   double? _latitude;
   double? _longitude;
   double? _radius;
-  var _categories = <FoodCategory>{};
+  var _categories = <FoodCategory>{FoodCategory.values[0]};
   bool _duplicateNumber = false;
   var _formKey = GlobalKey<FormState>();
 
@@ -59,6 +59,7 @@ class _SignUpPanelState extends State<SignUpPanel> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: Theme.of(context).cardColor,
+              boxShadow: Shadows.wide(),
             ),
             padding: EdgeInsets.all(15),
             child: Form(
@@ -75,9 +76,11 @@ class _SignUpPanelState extends State<SignUpPanel> {
                   buildRestaurantNameField(),
                   buildAddressTextField(),
                   buildCoordinatesField(),
+                  const SizedBox(height: 20,),
+                  Text(Strings.get('settings-categories')!, style: Theme.of(context).textTheme.headline5,),
                   const SizedBox(height: 10,),
-                  Text(Strings.get('settings-categories')!, style: Theme.of(context).textTheme.headline2,),
                   buildCategories(),
+                  const SizedBox(height: 5,),
                   buildModelButton(Strings.get('sign-up-button')!, Theme.of(context).primaryColor, signUpPressed),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -199,7 +202,9 @@ class _SignUpPanelState extends State<SignUpPanel> {
               if (isSelected) {
                 _categories.add(category);
               } else {
-                _categories.remove(category);
+                if (_categories.length > 1) {
+                  _categories.remove(category);
+                }
               }
             });
           },
