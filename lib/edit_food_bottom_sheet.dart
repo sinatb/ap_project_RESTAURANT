@@ -43,10 +43,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                   isAvailable = value;
                 });
               },
-              activeColor: CommonColors.green,
-              inactiveTrackColor: CommonColors.red,
             ),
-            buildModelButton(Strings.get('edit-add-image')!, CommonColors.green!, (){getFoodImage();}),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -67,7 +64,8 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                       showBar(Strings.get('delete-food-successful')!, Duration(milliseconds: 2000))
                   );
                 }),
-                buildModelButton(Strings.get('edit-bottom-sheet-save')!, Theme.of(context).buttonColor, () async {
+                buildModelButton(Strings.get('edit-add-image')!, Theme.of(context).buttonColor, (){getFoodImage();}),
+                buildModelButton(Strings.get('edit-bottom-sheet-save')!, Theme.of(context).primaryColor, () async {
                   if (_formKey.currentState!.validate() == false) return;
                   if (foodImage != null) {
                     widget.food.image = foodImage;
@@ -83,7 +81,8 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                   );
                 })
               ],
-            )
+            ),
+            const SizedBox(height: 10,),
           ],
         ),
       ),
@@ -98,13 +97,14 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
     }
   }
   buildRemoveDialog() {
+    var black = Theme.of(context).colorScheme.onBackground;
     return AlertDialog(
       title: Text(Strings.get('food-remove-dialog-title')!),
-      titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: CommonColors.black),
+      titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: black),
       content: SingleChildScrollView(
         child: Text(Strings.get('remove-food-dialog-message')!),
       ),
-      contentTextStyle: TextStyle(fontSize: 15, color: CommonColors.black),
+      contentTextStyle: TextStyle(fontSize: 15, color: black),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),

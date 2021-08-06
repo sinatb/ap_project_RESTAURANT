@@ -55,15 +55,15 @@ class _OrderCardState extends State<OrderCard> {
           ),
           Padding(
             padding: const EdgeInsets.only(top : 20.0, left: 8.0),
-            child: Text(order.id ?? 'null'),
+            child: Wrap(children: [Icon(Icons.code), Text(order.code)], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
           ),
           Padding(
             padding: const EdgeInsets.only(top : 20.0, left: 8.0),
-            child: Text(Strings.formatDate(order.time)),
+            child: Wrap(children: [Icon(Icons.access_time_rounded), Text(Strings.formatDate(order.time))], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
           ),
           Padding(
             padding: const EdgeInsets.only(top : 20.0, left: 8.0),
-            child: Text(order.customer.address.toString()),
+            child: Wrap(children: [Icon(Icons.location_on_outlined), Text(order.customer.address.toString())], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0, left: 8.0),
@@ -81,8 +81,6 @@ class _OrderCardState extends State<OrderCard> {
                     if (newValue)
                       ScaffoldMessenger.of(context).showSnackBar(showBar(Strings.get('food-delivered-successful')!, Duration(milliseconds: 2000)));
                   },
-                  activeColor: CommonColors.green,
-                  inactiveTrackColor: CommonColors.red,
                 )
               ],
             ),
@@ -96,7 +94,7 @@ class _OrderCardState extends State<OrderCard> {
     return LimitedBox(
       child: ColoredBox(
         child: Icon(Icons.delivery_dining, color: Colors.white,),
-        color: isDelivered ? Colors.green : Colors.amber,
+        color: isDelivered ? CommonColors.themeColorGreen : Theme.of(context).accentColor,
       ),
     );
   }

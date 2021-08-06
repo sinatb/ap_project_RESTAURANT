@@ -19,7 +19,7 @@ class SearchBottomSheet extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(Strings.get('menu-search-options-title')!, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
+              Text(Strings.get('menu-search-options-title')!, style: Theme.of(context).textTheme.headline5),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(

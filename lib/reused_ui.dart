@@ -3,9 +3,9 @@ import 'package:models/models.dart';
 
 Widget buildAvailableIcon(isAvailable) {
   if (isAvailable) {
-    return Icon(Icons.check_circle, color: Colors.green,);
+    return Icon(Icons.check_circle, color: CommonColors.themeColorGreen,);
   }
-  return Icon(Icons.highlight_remove_rounded, color: Colors.red,);
+  return Icon(Icons.highlight_remove_rounded, color: CommonColors.themeColorRed,);
 }
 
 Widget buildPriceField(double padding, void Function(String?) onSaved, [String? initialValue]) {
