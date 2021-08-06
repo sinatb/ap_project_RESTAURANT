@@ -34,7 +34,7 @@ class _CommentsPanelState extends State<CommentsPanel> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.get('comments-panel-title')!),
+        title: Text(Strings.get('comments-panel-title')!, style: Theme.of(context).textTheme.headline5,),
       ),
       body: loaded ? ListView.builder(
         itemBuilder: (context, index) {

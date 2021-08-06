@@ -41,7 +41,7 @@ class _AddFoodState extends State<AddFood> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buildModelButton(Strings.get('edit-add-image')!, Theme.of(context).buttonColor, (){getFoodImage();}),
-                buildModelButton('Create', Theme.of(context).accentColor, createFood),
+                buildModelButton(Strings.get('create-food-button')!, Theme.of(context).accentColor, createFood),
               ],
             ),
             const SizedBox(height: 10,),
