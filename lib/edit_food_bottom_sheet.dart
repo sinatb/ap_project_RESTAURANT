@@ -35,7 +35,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
           children: [
             buildNameField(_padding, (name) => widget.food.name = name!, widget.food.name),
             buildDescriptionField(_padding, (desc) => widget.food.description = desc ?? '', widget.food.description),
-            buildPriceField(_padding, (price) => widget.food.price = Price(int.parse(price!)), widget.food.price.toString()),
+            buildPriceField(_padding, (price) => widget.food.price = Price(int.parse(price!)), widget.food.price.toInt().toString()),
             Switch(
               value: isAvailable ?? widget.food.isAvailable,
               onChanged: (value) {
@@ -68,7 +68,7 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                 buildModelButton(Strings.get('edit-bottom-sheet-save')!, Theme.of(context).primaryColor, () async {
                   if (_formKey.currentState!.validate() == false) return;
                   if (foodImage != null) {
-                    widget.food.image = foodImage;
+                    Head.of(context).depot[widget.food] = foodImage;
                   }
                   _formKey.currentState!.save();
                   widget.food.isAvailable = isAvailable!;

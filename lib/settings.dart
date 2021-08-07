@@ -98,7 +98,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
         SizedBox(height: 10,),
         Center(
           child: Container(
-            child: restaurant.logo,
+            child: Head.of(context).depot[restaurant] ?? Image.asset('assets/default_restaurant.jpg' , package: 'models',),
             width: MediaQuery.of(context).size.width/2,
           ),
         ),
@@ -111,7 +111,7 @@ class _SettingsPanelState extends State<SettingsPanel> {
   void editLogo() async {
     var newLogo = await imagePicker.getImage(source: ImageSource.gallery);
     if (newLogo == null) return;
-    restaurant.logo = Image.file(File(newLogo.path));
+    Head.of(context).depot[restaurant] = Image.file(File(newLogo.path));
     setState(() {
 
     });

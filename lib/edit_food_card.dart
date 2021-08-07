@@ -22,7 +22,7 @@ class _EditFoodCardState extends State<EditFoodCard> {
         children: [
           Flexible(
             child: Container(
-              child : widget.food.image,
+              child : Head.of(context).depot[widget.food] ?? Image.asset('assets/default_food.jpg' , package: 'models',),
             ),
             flex: 5,
             fit: FlexFit.tight,
