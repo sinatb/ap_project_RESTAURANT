@@ -70,7 +70,7 @@ class SearchBottomSheet extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(Strings.get('search-availability')!),
+                  Text(Strings.get('search-availability')!, style: Theme.of(context).textTheme.bodyText1,),
                   MyCheckBox(_predicateObject)
                 ],
               ),

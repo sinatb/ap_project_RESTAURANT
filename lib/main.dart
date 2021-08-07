@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         cardTheme: CardTheme(
           elevation: 2,
         ),
-        cardColor: Color(0xfffaf9f5),
+        cardColor: CommonColors.themeColorCard,
       ),
       home: SignUpPanel(),
     );
@@ -43,6 +43,8 @@ const textTheme1 = TextTheme(
   headline3: TextStyle(color: CommonColors.themeColorPlatinumLight, fontWeight: FontWeight.normal, fontSize: 22),
   headline4: TextStyle(color: CommonColors.themeColorPlatinumLight ,fontWeight: FontWeight.bold, fontSize: 22),
   headline1: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.normal, fontSize: 22),
-  headline2: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.bold, fontSize: 22),
-  headline5: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.normal, fontSize: 18),
+  headline2: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.w600, fontSize: 22),
+  headline5: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.w600, fontSize: 18),
+  bodyText2: TextStyle(color: CommonColors.themeColorBlackTransparent, fontWeight: FontWeight.normal),
+  bodyText1: TextStyle(color: CommonColors.themeColorBlack, fontWeight: FontWeight.normal),
 );

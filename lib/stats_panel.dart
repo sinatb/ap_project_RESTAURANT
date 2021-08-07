@@ -14,12 +14,16 @@ class _StatsPanelState extends State<StatsPanel> {
   final chips = [Strings.get('all'), Strings.get('today')];
   late DateTime now;
   var shadows;
+  TextStyle? textStyle;
+  TextStyle? textStyle2;
 
   @override
   Widget build(BuildContext context) {
 
     now = DateTime.now();
     shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
+    textStyle = Theme.of(context).textTheme.bodyText1;
+    textStyle2 = Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600);
 
     return CustomScrollView(
       slivers: [
@@ -71,9 +75,9 @@ class _StatsPanelState extends State<StatsPanel> {
     return Wrap(
       spacing: 10,
       children: [
-        Icon(Icons.today, color: Theme.of(context).accentColor,),
+        Icon(Icons.today, color: Theme.of(context).colorScheme.secondaryVariant,),
         Text('${Strings.get('today')}: ${Strings.formatDay(now)}',
-          style: TextStyle(fontSize: 18),
+          style: Theme.of(context).textTheme.headline5,
         ),
       ],
     );
@@ -100,7 +104,7 @@ class _StatsPanelState extends State<StatsPanel> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Record of Sale:', style: Theme.of(context).textTheme.headline6,),
+              child: Text(Strings.get('record-title')!, style: Theme.of(context).textTheme.headline5,),
             ),
             Table(
               children: [
@@ -108,15 +112,15 @@ class _StatsPanelState extends State<StatsPanel> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Title'),
+                      child: Text(Strings.get('stats-title-title')!, style: textStyle2,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Count'),
+                      child: Text(Strings.get('stats-count')!, style: textStyle2,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Price'),
+                      child: Text(Strings.get('stats-price')!, style: textStyle2,),
                     ),
                   ],
                 ),
@@ -124,15 +128,15 @@ class _StatsPanelState extends State<StatsPanel> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Total sale'),
+                      child: Text(Strings.get('stats-total')!, style: textStyle,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(count.toString()),
+                      child: Text(count.toString(), style: textStyle,),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('${total.toString()} ${Strings.get('toman')}'),
+                      child: Text('${total.toString()} ${Strings.get('toman')}', style: textStyle,),
                     ),
                   ]
                 ),

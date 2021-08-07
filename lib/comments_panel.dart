@@ -30,26 +30,20 @@ class _CommentsPanelState extends State<CommentsPanel> {
         });
       });
     }
-    final shadows = [BoxShadow(blurRadius: 5, spreadRadius: 1, color: Theme.of(context).shadowColor.withOpacity(0.2))];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.get('comments-panel-title')!, style: Theme.of(context).textTheme.headline5,),
       ),
-      body: loaded ? ListView.builder(
+      body: loaded ? (comments.isEmpty ? Center(child: Text(Strings.get('restaurant-no-comments')!),) : ListView.builder(
         itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.all(10),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: CommentTile(comment: comments[index], isForOwner: true),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).cardColor,
-              boxShadow: shadows,
-            ),
           );
         },
         itemCount: comments.length,
-      ) : Center(child: Text('loading...')),
+      )) : Center(child: Text('loading...')),
     );
   }
 }

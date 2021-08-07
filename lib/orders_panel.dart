@@ -18,7 +18,7 @@ class _OrdersPanelState extends State<OrdersPanel>
     _activeOrders = account.activeOrders;
     _previousOrders = account.previousOrders;
 
-    TextStyle headerStyle = Theme.of(context).textTheme.headline1!;
+    TextStyle headerStyle = Theme.of(context).textTheme.headline1!.copyWith(color: Theme.of(context).colorScheme.secondaryVariant);
 
     return RefreshIndicator(
       child: CustomScrollView(
@@ -26,22 +26,27 @@ class _OrdersPanelState extends State<OrdersPanel>
           SliverAppBar(
             floating: true,
             centerTitle: true,
-            title: Text(Strings.get('orders-menu-header')!,style: headerStyle,),
+            title: Text(Strings.get('orders-menu-header')!,style: Theme.of(context).textTheme.headline1,),
           ),
-          if (_activeOrders.isNotEmpty)
             buildHeader(Strings.get('order-page-active-orders')!, headerStyle),
           if (_activeOrders.isNotEmpty)
-            buildListOfOrders(context, _activeOrders),
-          if (_previousOrders.isNotEmpty)
-            buildHeader(Strings.get('order-page-inactive-orders')!, headerStyle),
-          if (_previousOrders.isNotEmpty)
-            buildListOfOrders(context, _previousOrders),
-          if (_activeOrders.isEmpty && _previousOrders.isEmpty)
+            buildListOfOrders(context, _activeOrders)
+          else
             SliverToBoxAdapter(
               child: Center(
-                child: Text(Strings.get('no-order-message')!),
+                child: Text(Strings.get('orders-no-active-orders')!),
               ),
-            )
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 15,),),
+            buildHeader(Strings.get('order-page-inactive-orders')!, headerStyle),
+          if (_previousOrders.isNotEmpty)
+            buildListOfOrders(context, _previousOrders)
+          else
+            SliverToBoxAdapter(
+              child: Center(
+                child: Text(Strings.get('orders-no-previous-orders')!),
+              ),
+            ),
         ],
       ),
       onRefresh: refreshList,

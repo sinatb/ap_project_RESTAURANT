@@ -13,11 +13,14 @@ class OrderCard extends StatefulWidget {
 
 class _OrderCardState extends State<OrderCard> {
 
-  static const bold = TextStyle(fontWeight: FontWeight.bold);
+  TextStyle? textStyle;
+  TextStyle? textStyleBold;
 
   @override
   Widget build(BuildContext context) {
 
+    textStyle = Theme.of(context).textTheme.bodyText1;
+    textStyleBold = Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600);
     var order = widget.order;
     var tableRows = <TableRow>[];
     order.items.forEach((key, value) => tableRows.add(buildItemTableRow(key, value)));
@@ -26,7 +29,7 @@ class _OrderCardState extends State<OrderCard> {
       child: ExpansionTile(
         leading: buildIsDelivered(order.isDelivered),
         title: Text('${order.customer.firstName} ${order.customer.lastName}'),
-        subtitle: Text('${order.totalCost} ${Strings.get('toman')}', style: bold,),
+        subtitle: Text('${order.totalCost} ${Strings.get('toman')}'),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -37,15 +40,15 @@ class _OrderCardState extends State<OrderCard> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text('Food name', style: bold,),
+                      child: Text(Strings.get('order-card-food-name')!, style: textStyleBold,),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text('Unit price', style: bold,),
+                      child: Text(Strings.get('order-card-unit-price')!, style: textStyleBold,),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text('Count', style: bold,),
+                      child: Text(Strings.get('order-card-count')!, style: textStyleBold,),
                     ),
                   ]
                 ),
@@ -55,21 +58,21 @@ class _OrderCardState extends State<OrderCard> {
           ),
           Padding(
             padding: const EdgeInsets.only(top : 20.0, left: 8.0),
-            child: Wrap(children: [Icon(Icons.code), Text(order.code)], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
+            child: Wrap(children: [Icon(Icons.code), Text(order.code, style: textStyle,)], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
           ),
           Padding(
             padding: const EdgeInsets.only(top : 20.0, left: 8.0),
-            child: Wrap(children: [Icon(Icons.access_time_rounded), Text(Strings.formatDate(order.time))], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
+            child: Wrap(children: [Icon(Icons.access_time_rounded), Text(Strings.formatDate(order.time), style: textStyle,)], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
           ),
           Padding(
             padding: const EdgeInsets.only(top : 20.0, left: 8.0),
-            child: Wrap(children: [Icon(Icons.location_on_outlined), Text(order.customer.address.toString())], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
+            child: Wrap(children: [Icon(Icons.location_on_outlined), Text(order.customer.address.toString(), style: textStyle,)], spacing: 5, crossAxisAlignment: WrapCrossAlignment.center,),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0, left: 8.0),
             child: Row(
               children: [
-                Text(Strings.get('order-bottom-sheet-is-ready')!),
+                Text(Strings.get('order-bottom-sheet-is-ready')!, style: textStyle,),
                 Switch(
                   value: order.isDelivered,
                   onChanged: (newValue) {
@@ -104,15 +107,15 @@ class _OrderCardState extends State<OrderCard> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),
-          child: Text(foodData.name),
+          child: Text(foodData.name, style: textStyle,),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 4.0),
-          child: Text(foodData.price.toString()),
+          child: Text(foodData.price.toString(), style: textStyle,),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 4.0),
-          child: Text((count).toString()),
+          child: Text((count).toString(), style: textStyle,),
         ),
       ]
     );

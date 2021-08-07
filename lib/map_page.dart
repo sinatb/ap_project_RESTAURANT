@@ -48,7 +48,7 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appBarTitle),
+        title: Text(appBarTitle, style: Theme.of(context).textTheme.headline5,),
         elevation: 1,
       ),
       body: Column(

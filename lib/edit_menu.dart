@@ -12,7 +12,6 @@ class EditMenuPanel extends StatefulWidget {
 class _EditMenuPanelState extends State<EditMenuPanel> {
 
   late FoodMenu menu;
-  var defaultBoxShadow = BoxShadow(spreadRadius: 0.4, blurRadius: 3, color: Colors.grey);
   bool inSearchMode = false;
   late TextStyle headerStyle;
 
@@ -56,7 +55,21 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
             }),
           ],
         ),
-        if (!inSearchMode)
+        if (menu.isEmpty && inSearchMode)
+            SliverPadding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
+              sliver: SliverToBoxAdapter(
+                child: Center(child: Text(Strings.get('menu-search-empty-message')!)),
+              ),
+            ),
+        if (menu.isEmpty && !inSearchMode)
+          SliverPadding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.5),
+            sliver: SliverToBoxAdapter(
+              child: Center(child: Text(Strings.get('edit-menu-empty-message')!)),
+            ),
+          ),
+        if (!inSearchMode && menu.isNotEmpty)
           buildHeader(Strings.get('edit-menu-categories-header')!, headerStyle),
         if (!inSearchMode)
           SliverPadding(

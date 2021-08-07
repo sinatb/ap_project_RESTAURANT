@@ -16,8 +16,8 @@ class _SettingsPanelState extends State<SettingsPanel> {
 
   late Restaurant restaurant;
 
-  static const _smallHeading = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-  static const _regular = TextStyle(fontSize: 18);
+  TextStyle? _smallHeading;
+  TextStyle? _regular;
 
   final imagePicker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
@@ -27,6 +27,8 @@ class _SettingsPanelState extends State<SettingsPanel> {
 
     var owner = Head.of(context).ownerServer.account;
     restaurant = owner.restaurant;
+    _smallHeading = Theme.of(context).textTheme.headline5;
+    _regular = Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 18);
 
     return Scaffold(
       appBar: AppBar(
