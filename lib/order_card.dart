@@ -28,7 +28,7 @@ class _OrderCardState extends State<OrderCard> {
     return Card(
       child: ExpansionTile(
         leading: buildIsDelivered(order.isDelivered),
-        title: Text('${order.customer.firstName} ${order.customer.lastName}'),
+        title: Text('${order.customer.firstName} ${order.customer.lastName}', style: TextStyle(fontWeight: FontWeight.w600),),
         subtitle: Text('${order.totalCost} ${Strings.get('toman')}'),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [

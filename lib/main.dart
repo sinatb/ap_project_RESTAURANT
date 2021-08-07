@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.from(colorScheme: colorScheme1, textTheme: textTheme1)
       .copyWith(
         cardTheme: CardTheme(
-          elevation: 2,
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         cardColor: CommonColors.themeColorCard,
       ),

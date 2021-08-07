@@ -96,7 +96,13 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
           Flexible(
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                image: DecorationImage(
+                  image: getCategoryImage(category),
+                  fit: BoxFit.fill,
+                  colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.9), BlendMode.dstATop),
+                ),
               ),
             ),
             flex: 3,
@@ -104,7 +110,10 @@ class _EditMenuPanelState extends State<EditMenuPanel> {
           ),
           Flexible(
             child: Container(
-              color: Theme.of(context).cardColor,
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+              ),
               child: Center(
                 child: Text(Strings.get(category.toString())!,
                   style: Theme.of(context).textTheme.headline2,
