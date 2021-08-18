@@ -37,6 +37,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: "^0.9.1"
+  flutter_app_name: ^0.1.0
+
+flutter_app_name:
+  name: "Savvy Meals - Managers"
 
 flutter_icons:
   android: "launcher_icon"

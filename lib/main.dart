@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Restaurant Demo',
+      title: 'Savvy Meals - Managers',
       theme: ThemeData.from(colorScheme: colorScheme1, textTheme: textTheme1)
       .copyWith(
         cardTheme: CardTheme(

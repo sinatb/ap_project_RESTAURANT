@@ -2,7 +2,7 @@
     package="com.example.restaurant">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="restaurant"
+        android:label="Savvy Meals - Managers"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
