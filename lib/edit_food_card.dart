@@ -17,34 +17,37 @@ class _EditFoodCardState extends State<EditFoodCard> {
 
   @override
   build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          Flexible(
-            child: Container(
-              child : Head.of(context).depot[widget.food] ?? Image.asset('assets/default_food.jpg' , package: 'models',),
+    return GestureDetector(
+      onTap: () => showFoodBottomSheet(widget.food),
+      child: Card(
+        child: Column(
+          children: [
+            Flexible(
+              child: Container(
+                child : Head.of(context).depot[widget.food] ?? Image.asset('assets/default_food.jpg' , package: 'models',),
+              ),
+              flex: 5,
+              fit: FlexFit.tight,
             ),
-            flex: 5,
-            fit: FlexFit.tight,
-          ),
-          Flexible(
-            child: ListTile(
-              title: Text(widget.food.name),
-              trailing: buildAvailableIcon(widget.food.isAvailable),
-              subtitle: Text('${widget.food.price} ${Strings.get('toman')}'),
+            Flexible(
+              child: ListTile(
+                title: Text(widget.food.name),
+                trailing: buildAvailableIcon(widget.food.isAvailable),
+                subtitle: Text('${widget.food.price} ${Strings.get('toman')}'),
+              ),
+              flex: 2,
+              fit: FlexFit.tight,
             ),
-            flex: 2,
-            fit: FlexFit.tight,
-          ),
-          Flexible(
-            child: TextButton(
-              onPressed: () => showFoodBottomSheet(widget.food),
-              child: Text(Strings.get('food-item-edit-button')!),
-            ),
-            flex: 1,
-            fit: FlexFit.tight,
-          )
-        ],
+            Flexible(
+              child: TextButton(
+                onPressed: () => showFoodBottomSheet(widget.food),
+                child: Text(Strings.get('food-item-edit-button')!),
+              ),
+              flex: 1,
+              fit: FlexFit.tight,
+            )
+          ],
+        ),
       ),
     );
   }
