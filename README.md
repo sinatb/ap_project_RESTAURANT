@@ -20,18 +20,18 @@ and the java server here:
 ### Screenshots
 
 <div align="center">
-    <img src="./screenshots/01.png" style="width:300px;padding:5px 10px"/>
-    <img src="./screenshots/02.png" style="width:300px;padding:5px 10px"/>
+    <img src="./screenshots/01.png" width="300"/>
+    <img src="./screenshots/02.png" width="300"/>
 </div>
 
 <div align="center">
-    <img src="./screenshots/03.png" style="width:300px;padding:5px 10px"/>
-    <img src="./screenshots/04.png" style="width:300px;padding:5px 10px"/>
+    <img src="./screenshots/03.png" width="300"/>
+    <img src="./screenshots/04.png" width="300"/>
 </div>
 
 <div align="center">
-    <img src="./screenshots/05.png" style="width:300px;padding:5px 10px"/>
-    <img src="./screenshots/06.png" style="width:300px;padding:5px 10px"/>
+    <img src="./screenshots/05.png" width="300"/>
+    <img src="./screenshots/06.png" width="300"/>
 </div>
 
 ---
